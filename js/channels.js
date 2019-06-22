@@ -60,7 +60,7 @@ function getChannels() {
 }
 
 function setChannelClickListener() {
-    $(".edit-channel").on("click", function() {
+    $(".edit-channel").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         currentChannelIndex = index;
@@ -171,7 +171,7 @@ function setChannelClickListener() {
         });
         $("#edit-channel-container").css("display", "flex").hide().fadeIn(300);
     });
-    $(".delete-channel").on("click", function() {
+    $(".delete-channel").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var channel = channels[index];

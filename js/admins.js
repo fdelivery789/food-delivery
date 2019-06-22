@@ -45,7 +45,7 @@ function getAdmins() {
 }
 
 function setAdminClickListener() {
-    $(".edit-admin").on("click", function() {
+    $(".edit-admin").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var admin = admins[index];
@@ -126,7 +126,7 @@ function setAdminClickListener() {
             });
         });
     });
-    $(".delete-admin").on("click", function() {
+    $(".delete-admin").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var admin = admins[index];

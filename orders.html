@@ -2,6 +2,8 @@
 <html>
 <head>
     <script src="js/jquery.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/orders.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
     <script>
@@ -16,16 +18,18 @@
         };
         firebase.initializeApp(firebaseConfig);
     </script>
-    <script src="js/global.js"></script>
-    <script src="js/users.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+            type="text/javascript" charset="utf-8"></script>
     <link href="css/global.css" rel="stylesheet">
-    <link href="css/users.css" rel="stylesheet">
     <link href="img/icon.png" rel="icon">
     <title>Admin</title>
 </head>
 <body>
 <div style="width: 100%; height: 100%; display: flex; flex-flow: row nowrap; position: fixed; left: 0; top: 0;">
-    <div style="width: 200px; height: 100%; background-color: #2e2f4d; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+    <div style="width: 200px; height: 100%; background-color: #2e2f4d; display: flex; flex-flow: column nowrap; overflow: hidden;">
         <div style="width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;">
             <img src="img/icon.png" width="60px" height="60px">
         </div>
@@ -33,11 +37,11 @@
             <img src="img/admin.png" width="20px" height="20px">
             <div style="margin-left: 10px;">Admin</div>
         </div>
-        <div onclick="openUsers()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
+        <div onclick="openUsers()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
             <img src="img/user-2.png" width="20px" height="20px">
             <div style="margin-left: 10px;">Pengguna</div>
         </div>
-        <div onclick="openOrders()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+        <div onclick="openOrders()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
             <img src="img/money.png" width="20px" height="20px">
             <div style="margin-left: 10px;">Pesanan</div>
         </div>
@@ -46,57 +50,76 @@
             <div style="margin-left: 10px;">Keluar</div>
         </div>
     </div>
-    <div style="width: calc(100% - 200px); display: flex; flex-flow: column nowrap; padding-top: 30px; overflow-y: scroll;">
+    <div style="width: calc(100% - 200px); display: flex; flex-flow: column nowrap; padding-top: 30px; overflow: hidden;">
         <div style="display: flex; flex-flow: row nowrap; margin-left: 20px;">
             <img src="img/settings-2.png" width="50px" height="50px">
-            <div style="margin-left: 10px; font-size: 25px; color: #717179;">Daftar Pengguna</div>
-        </div>
-        <div style="display: flex; justify-content: flex-end; width: 1000px; margin-left: 20px;">
-            <button onclick="addUser()" class="button6">Tambah Pengguna</button>
+            <div style="margin-left: 10px; font-size: 25px; color: #717179;">Daftar Pesanan</div>
         </div>
         <table class="flat-table" style="width: 1000px; margin-left: 20px; margin-top: 10px;">
             <thead>
             <tr>
                 <th>No.</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Kata Sandi</th>
-                <th>No. HP</th>
-                <th>Posisi</th>
-                <th>Ubah</th>
+                <th>Dari &#8594; Ke</th>
+                <th>Jumlah Item</th>
+                <th>Lihat</th>
                 <th>Hapus</th>
             </tr>
             </thead>
-            <tbody id="users">
+            <tbody id="orders">
             </tbody>
         </table>
         <div>&nbsp;</div>
     </div>
 </div>
-<div id="edit-user-container"
-     style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
-    <div style="width: 500px; height: calc(100% - 100px); border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+<div id="view-order-container"
+     style="position: fixed; left: 0; top: 0; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow: hidden;">
+    <div style="width: 500px; height: 500px; background-color: white; border-top-left-radius: 5px; border-bottom-left-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden;">
         <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
-            <div id="edit-user-title" style="margin-left: 20px; margin-right: 20px;">Edit Pengguna</div>
+            <div id="view-order-title" style="margin-left: 20px; margin-right: 20px;">Lihat Detail Pesanan</div>
         </div>
         <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama:</div>
-        <input class="input2" id="edit-user-name" type="text" style="margin-left: 20px; margin-right: 20px;">
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP:</div>
-        <input class="input2" id="edit-user-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email:</div>
-        <input class="input2" id="edit-user-email" type="text" style="margin-left: 20px; margin-right: 20px;">
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Kata sandi:
-        </div>
-        <input class="input2" id="edit-user-password" type="password" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP pembeli:</div>
+        <input class="input2" id="view-order-customer-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP penjual:</div>
+        <input class="input2" id="view-order-seller-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP pengirim:</div>
+        <input class="input2" id="view-order-driver-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Total Biaya:</div>
+        <input class="input2" id="view-order-fee" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
-            <button onclick="closeEditUserDialog()" class="button5">Batal</button>
-            <button id="edit-user-ok" class="button4" style="margin-left: 5px;">Tambah</button>
+            <button id="view-order-delete" class="button5" style="margin-left: 5px;">Hapus</button>
+            <button id="view-order-ok" class="button4" style="margin-left: 5px;">OK</button>
         </div>
         <div>&nbsp;</div>
-        </input>
+    </div>
+    <div style="width: 500px; height: 500px; background-color: white; border-top-right-radius: 5px; border-bottom-right-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden;">
+        <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
+            <div style="margin-left: 20px; margin-right: 20px;">&nbsp;</div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Pantau Lokasi Driver:</div>
+        <div style="width: 300px; height: 300px" id="mapContainer"></div>
     </div>
 </div>
+<script>
+    // Initialize the platform object:
+    var platform = new H.service.Platform({
+        'app_id': 'Mnsa1XrsVndwuAKq13NL',
+        'app_code': 'l2wio8_8YVfJBn8x7emtBg'
+    });
+
+    // Obtain the default map types from the platform object
+    var maptypes = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+        document.getElementById('mapContainer'),
+        maptypes.normal.map,
+        {
+            zoom: 10,
+            center: { lng: 13.4, lat: 52.51 }
+        });
+</script>
 <div id="confirm-container"
      style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .8);">
     <div style="background-color: white; width: 500px; border-radius: 8px; display: flex; flex-flow: column nowrap;">
@@ -116,7 +139,8 @@
             <button id="confirm-cancel" class="button3"
                     style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">Batal
             </button>
-            <button id="confirm-ok" class="button3" style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">
+            <button id="confirm-ok" class="button3"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">
                 OK
             </button>
         </div>

@@ -2,18 +2,17 @@
 <html>
 <head>
     <script src="js/jquery.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
     <script>
         var firebaseConfig = {
-            apiKey: "AIzaSyCGoKLL22VdPxdAAYgzdadeQ54qGUH4uK0",
-            authDomain: "food-delivery-e5147.firebaseapp.com",
-            databaseURL: "https://food-delivery-e5147.firebaseio.com",
-            projectId: "food-delivery-e5147",
-            storageBucket: "food-delivery-e5147.appspot.com",
-            messagingSenderId: "475606951826",
-            appId: "1:475606951826:web:85128e05e8906976"
+            apiKey: "AIzaSyBIQHNnSDMf_BNX-hlQRH4A4mGm0o7iJEc",
+            authDomain: "food-delivery-e9a7e.firebaseapp.com",
+            databaseURL: "https://food-delivery-e9a7e.firebaseio.com",
+            projectId: "food-delivery-e9a7e",
+            storageBucket: "food-delivery-e9a7e.appspot.com",
+            messagingSenderId: "680216534990",
+            appId: "1:680216534990:web:a753244f5f9a1b8e"
         };
         firebase.initializeApp(firebaseConfig);
     </script>
@@ -21,6 +20,8 @@
     <script src="js/admins.js"></script>
     <link href="css/global.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="img/icon.png" rel="icon">
+    <title>Admin</title>
 </head>
 <body>
 <div style="width: 100%; height: 100%; display: flex; flex-flow: row nowrap; position: fixed; left: 0; top: 0;">
@@ -28,25 +29,17 @@
         <div style="width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;">
             <img src="img/icon.png" width="60px" height="60px">
         </div>
-        <div onclick="openCommon()" class="menu-item" style="margin-left: 10px; margin-top: 20px;">
-            <img src="img/settings.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Umum</div>
+        <div onclick="openAdmins()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/admin.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Admin</div>
         </div>
         <div onclick="openUsers()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
             <img src="img/user-2.png" width="20px" height="20px">
             <div style="margin-left: 10px;">Pengguna</div>
         </div>
-        <div onclick="openAdmins()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/admin.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Admin</div>
-        </div>
-        <div onclick="openPurchases()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+        <div onclick="openOrders()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
             <img src="img/money.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Pembayaran</div>
-        </div>
-        <div onclick="openChannels()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/tv.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Channel</div>
+            <div style="margin-left: 10px;">Pesanan</div>
         </div>
         <div onclick="logout()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
             <img src="img/logout.png" width="20px" height="20px">

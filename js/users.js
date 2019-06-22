@@ -65,7 +65,7 @@ function getUsers() {
 }
 
 function setUserClickListener() {
-    $(".edit-user").on("click", function() {
+    $(".edit-user").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var user = users[index];
@@ -117,7 +117,7 @@ function setUserClickListener() {
             });
         });
     });
-    $(".delete-user").on("click", function() {
+    $(".delete-user").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var user = users[index];

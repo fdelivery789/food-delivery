@@ -1,5 +1,7 @@
-const PHP_PATH = "http://fdelivery.xyz/php/";
+const PHP_PATH = "http://localhost/fdelivery/php/";
 const API_KEY = "AIzaSyCNA8fwTJhMu8ju9pdg08M5zBmninVPm5k";
+const HERE_APP_ID = "Mnsa1XrsVndwuAKq13NL";
+const HERE_APP_CODE = "l2wio8_8YVfJBn8x7emtBg";
 
 function show(msg) {
     $("#toast-msg").html(msg);
@@ -71,10 +73,6 @@ function logout() {
     $("#confirm-container").css("display", "flex");
 }
 
-function openCommon() {
-    window.location.href = "common.html";
-}
-
 function openAdmins() {
     window.location.href = "admins.html";
 }
@@ -87,12 +85,8 @@ function openRestaurants() {
     window.location.href = "restaurants.html";
 }
 
-function openPurchases() {
-    window.location.href = "purchases.html";
-}
-
-function openChannels() {
-    window.location.href = "channels.html";
+function openOrders() {
+    window.location.href = "orders.html";
 }
 
 function generateRandomID(length) {
@@ -110,4 +104,8 @@ function generateUUID() {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+function formatMoney(money) {
+    return (money).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }

@@ -1,6 +1,6 @@
 <?php
 include 'db.php';
-$results = $c->query("SELECT * FROM purchases");
+$results = $c->query("SELECT * FROM orders");
 $purchases = [];
 if ($results && $results->num_rows > 0) {
     while ($row = $results->fetch_assoc()) {

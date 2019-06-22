@@ -52,7 +52,7 @@ function getRestaurants() {
 }
 
 function setRestaurantClickListener() {
-    $(".edit-restaurant").on("click", function() {
+    $(".edit-restaurant").unbind().on("click", function() {
         var td = $(this).parent();
         var tr = td.parent();
         var index = tr.parent().children().index(tr);

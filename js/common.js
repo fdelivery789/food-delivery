@@ -63,19 +63,19 @@ function getBankByType(index) {
 }
 
 function setDeleteBankClickListener() {
-    $(".delete-bank").on("click", function() {
+    $(".delete-bank").unbind().on("click", function() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         $("#confirm-title").html("Hapus Bank");
         $("#confirm-msg").html("Apakah Anda yakin ingin menghapus bank ini?");
         $("#confirm-container").css("display", "flex").hide().fadeIn(300);
-        $("#confirm-ok").on("click", function() {
+        $("#confirm-ok").unbind().on("click", function() {
             $("#confirm-container").fadeOut(300);
             showProgress("Menghapus bank");
             banks.splice(index, 1);
             updateSettings();
         });
-        $("#confirm-cancel").on("click", function() {
+        $("#confirm-cancel").unbind().on("click", function() {
             $("#confirm-container").fadeOut(300);
         });
     });
