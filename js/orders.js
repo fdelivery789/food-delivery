@@ -97,6 +97,7 @@ function setOrderClickListener() {
             $("#view-order-container").fadeOut(300);
         });
         $("#view-order-cancel").unbind().on("click", function() {
+            console.log("This line");
             $("#view-order-container").fadeOut(300);
         });
         $("#view-order-container").css("display", "flex").hide().fadeIn(300);
