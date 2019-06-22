@@ -7,4 +7,5 @@ $latitude = doubleval($_POST["latitude"]);
 $longitude = doubleval($_POST["longitude"]);
 $address = $_POST["address"];
 $rating = $_POST["rating"];
-$c->query("INSERT INTO restaurants (id, name, img_url, latitude, longitude, address, rating) VALUES ('" . $id . "', '" . $name . "', '" . $imgURL . "', " . $latitude . ", " . $longitude . ", '" . $address . "', '" . $rating . "')");
+$sellerID = $_POST["seller_id"];
+$c->query("INSERT INTO restaurants (id, name, img_url, latitude, longitude, address, rating) VALUES ('" . $id . "', '" . $name . "', '" . $imgURL . "', " . $latitude . ", " . $longitude . ", '" . $address . "', '" . $rating . "', '" . $sellerID . "')");
