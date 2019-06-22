@@ -1,17 +1,105 @@
 var currentMaximumConnections = 1;
 var currentProfilePicture = "";
 var users = [];
+var currentUser;
+var currentUserName;
+var adminID;
+var adminName;
 
-$(document).ready(function() {
+$(document).ready(function () {
+    $.ajax({
+        type: 'GET',
+        url: PHP_PATH + 'get-admin-id.php',
+        dataType: 'text',
+        cache: false,
+        success: function (response) {
+            adminID = response;
+            console.log("Admin ID: "+adminID);
+            $("#message").keypress(function (e) {
+                if (e.which == 13) {
+                    sendMessage($("#message").val());
+                    return false;
+                }
+            });
+            firebase.database().ref("admins/"+adminID+"/new_message").on("value").then(function(snapshot) {
+                var newMessage = parseInt(snapshot.val());
+                console.log("New message: "+newMessage);
+                if (newMessage == 1) {
+                    // New message received
+                    var updates = {};
+                    updates["admins/"+adminID+"/new_message"] = 0;
+                    firebase.database().ref().update(updates);
+                    firebase.database().ref("admins/"+adminID+"/new_message_content").once("value").then(function(snapshot) {
+                        var message = snapshot.val();
+                        console.log("New message content: "+message);
+                        firebase.database().ref("admins/"+adminID+"/new_message_sender_id").once("value").then(function(snapshot) {
+                            var senderID = snapshot.val();
+                            console.log("Sender ID: "+senderID);
+                            firebase.database().ref("users/"+senderID+"/name").once("value").then(function(snapshot) {
+                                var senderName = snapshot.val();
+                                console.log("Sender name: "+senderName);
+                                $("#messages").append("" +
+                                    "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                    "<div style='color: #888888; font-size: 14px;'>" + senderName + "</div>" +
+                                    "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                    "</div>");
+                                $("#messages").scrollTop($("#messages").prop("scrollHeight"));
+                            });
+                        });
+                    });
+                }
+            });
+        }
+    });
     getUsers();
 });
+
+function sendMessage(message) {
+    $("#message").val("");
+    var updates = {};
+    updates["users/" + currentUser["id"] + "/new_message_content"] = message;
+    firebase.database().ref().update(updates);
+
+    updates = {};
+    updates["users/" + currentUser["id"] + "/new_message_admin_id"] = adminID;
+    firebase.database().ref().update(updates);
+
+    updates = {};
+    updates["users/" + currentUser["id"] + "/new_message"] = 1;
+    firebase.database().ref().update(updates);
+
+    console.log("Admin ID: " + adminID);
+    firebase.database().ref("admins/" + adminID + "/name").once("value").then(function (snapshot) {
+        var adminName = snapshot.val();
+        var fd = new FormData();
+        fd.append("message", message);
+        fd.append("admin_id", adminID);
+        fd.append("user_id", currentUser["id"]);
+        $.ajax({
+            type: 'POST',
+            url: PHP_PATH+'send-message.php',
+            data: fd,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function(a) {
+                $("#messages").append("" +
+                    "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                    "<div style='color: #888888; font-size: 14px;'>" + adminName + "</div>" +
+                    "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                    "</div>");
+                $("#messages").scrollTop($("#messages").prop("scrollHeight"));
+            }
+        });
+    });
+}
 
 function getUsers() {
     $("#users").find("*").remove();
     users = [];
     showProgress("Memuat pengguna");
     // Get users
-    firebase.database().ref("users").once("value").then(function(snapshot) {
+    firebase.database().ref("users").once("value").then(function (snapshot) {
         var i = 1;
         for (var userID in snapshot.val()) {
             var user = {};
@@ -22,11 +110,11 @@ function getUsers() {
             user['id'] = userID;
             var position = "";
             if (user['position'] == 1) {
-                position = "Pengguna";
+                position = "Pelanggan";
             } else if (user['position'] == 2) {
-                position = "Penjual";
-            } else if (user['position'] == 3) {
                 position = "Pengantar";
+            } else if (user['position'] == 3) {
+                position = "Penjual";
             }
             var name = user["name"];
             if (name == undefined) {
@@ -44,16 +132,15 @@ function getUsers() {
             if (phone == undefined) {
                 phone = "";
             }
-            $("#users").append(""+
-                "<tr>"+
-                "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>"+i+"</div></td>"+
-                "<td>"+name+"</td>"+
-                "<td>"+email+"</td>"+
-                "<td>"+password+"</td>"+
-                "<td>"+phone+"</td>"+
-                "<td>"+position+"</td>"+
-                "<td><a class='edit-user link'>Ubah</a></td>"+
-                "<td><a class='delete-user link'>Hapus</a></td>"+
+            $("#users").append("" +
+                "<tr>" +
+                "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + i + "</div></td>" +
+                "<td>" + name + "</td>" +
+                "<td>" + email + "</td>" +
+                "<td>" + position + "</td>" +
+                "<td><a class='send-message link2'>Kirim</a></td>" +
+                "<td><a class='edit-user link'>Ubah</a></td>" +
+                "<td><a class='delete-user link'>Hapus</a></td>" +
                 "</tr>"
             );
             users.push(user);
@@ -64,8 +151,62 @@ function getUsers() {
     });
 }
 
+function getMessages() {
+    var fd = new FormData();
+    fd.append("admin_id", adminID);
+    fd.append("user_id", currentUser["id"]);
+    firebase.database().ref("users/"+currentUser["id"]+"/name").once("value").then(function(snapshot) {
+        currentUserName = snapshot.val();
+        firebase.database().ref("users/"+adminID+"/name").once("value").then(function(snapshot) {
+            adminName = snapshot.val();
+            $.ajax({
+                type: 'GET',
+                url: PHP_PATH+'get-messages.php',
+                data: fd,
+                dataType: false,
+                contentType: false,
+                cache: false,
+                success: function(response) {
+                    var messagesJSON = JSON.parse(response);
+                    for (var i=0; i<messagesJSON.length; i++) {
+                        var messageJSON = messagesJSON[i];
+                        var message = messageJSON["message"];
+                        var sender = messageJSON["sender"]; //1 = admin, 2 = user
+                        if (sender == 1) {
+                            $("#messages").append("" +
+                                "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                "<div style='color: #888888; font-size: 14px;'>" + adminName + "</div>" +
+                                "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                "</div>");
+                            $("#messages").scrollTop($("#messages").prop("scrollHeight"));
+                        } else if (sender == 2) {
+                            $("#messages").append("" +
+                                "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                "<div style='color: #888888; font-size: 14px;'>" + currentUserName + "</div>" +
+                                "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                "</div>");
+                            $("#messages").scrollTop($("#messages").prop("scrollHeight"));
+                        }
+                    }
+                }
+            });
+        });
+    });
+}
+
 function setUserClickListener() {
-    $(".edit-user").unbind().on("click", function() {
+    $(".send-message").unbind().on("click", function () {
+        var tr = $(this).parent().parent();
+        var index = tr.parent().children().index(tr);
+        var user = users[index];
+        currentUser = user;
+        $("#user-name").html(user["name"]);
+        $("#user-email").html(user["email"]);
+        $("#chat-container").css("display", "flex").hide().fadeIn(100);
+        $("#message").val("");
+        getMessages();
+    });
+    $(".edit-user").unbind().on("click", function () {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var user = users[index];
@@ -74,28 +215,38 @@ function setUserClickListener() {
         $("#edit-user-phone").val(user["phone"]);
         $("#edit-user-email").val(user["email"]);
         $("#edit-user-password").val(user["password"]);
-        var endTime = new Date(parseInt(user["end_date"]));
-        console.log("End time: "+endTime);
-        var year = endTime.getFullYear();
-        var month = endTime.getMonth()+1;
-        if (month < 10) {
-            month = "0"+month;
+        var position = user["position"];
+        if (position == 1) {
+            $("#customer").prop("checked", true);
+            $("#driver").prop("checked", false);
+            $("#seller").prop("checked", false);
+        } else if (position == 2) {
+            $("#customer").prop("checked", false);
+            $("#driver").prop("checked", true);
+            $("#seller").prop("checked", false);
+        } else if (position == 3) {
+            $("#customer").prop("checked", false);
+            $("#driver").prop("checked", false);
+            $("#seller").prop("checked", true);
         }
-        var day = endTime.getDate();
-        console.log("Month: "+month);
-        if (day < 10) {
-            day = "0"+day;
-        }
-        $("#end-time").val(year+"-"+month+"-"+day);
         if (user["profile_picture_url"] != "") {
             $("#edit-user-profile-picture").attr("src", user["profile_picture_url"]);
         }
         $("#edit-user-container").css("display", "flex").hide().fadeIn(300);
-        $("#edit-user-ok").html("Ubah").unbind().on("click", function() {
+        $("#edit-user-ok").html("Ubah").unbind().on("click", function () {
             var name = $("#edit-user-name").val().trim();
             var phone = $("#edit-user-phone").val().trim();
             var email = $("#edit-user-email").val().trim();
             var password = $("#edit-user-password").val().trim();
+            var position = user["position"];
+            if ($("#customer").prop("checked") == true) {
+                position = 1;
+            } else if ($("#driver").prop("checked") == true) {
+                position = 2;
+            } else if ($("#seller").prop("checked") == true) {
+                position = 3;
+            }
+            console.log("New position: " + position);
             if (email == "") {
                 show("Mohon masukkan email");
                 return;
@@ -105,44 +256,45 @@ function setUserClickListener() {
                 return;
             }
             showProgress("Mengubah informasi pengguna");
-            firebase.database().ref("users/"+user["id"]).set({
-                name: name,
-                phone: phone,
-                email: email,
-                password: password
-            }, function(error) {
+            var updates = {};
+            updates["users/" + user["id"] + "/name"] = name;
+            updates["users/" + user["id"] + "/phone"] = phone;
+            updates["users/" + user["id"] + "/email"] = email;
+            updates["users/" + user["id"] + "/password"] = password;
+            updates["users/" + user["id"] + "/position"] = position;
+            firebase.database().ref().update(updates, function () {
                 hideProgress();
                 $("#edit-user-container").fadeOut(300);
                 getUsers();
             });
         });
     });
-    $(".delete-user").unbind().on("click", function() {
+    $(".delete-user").unbind().on("click", function () {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var user = users[index];
         $("#confirm-title").html("Hapus Pengguna");
-        $("#close-confirm").unbind().on("click", function() {
+        $("#close-confirm").unbind().on("click", function () {
             $("#confirm-container").fadeOut(300);
         });
         $("#confirm-msg").html("Apakah Anda yakin ingin menghapus pengguna ini?");
-        $("#confirm-ok").unbind().on("click", function() {
+        $("#confirm-ok").unbind().on("click", function () {
             $("#confirm-container").hide();
             showProgress("Menghapus pengguna");
             $.ajax({
                 type: 'GET',
-                url: PHP_PATH+'delete-user.php',
+                url: PHP_PATH + 'delete-user.php',
                 data: {'id': user["id"]},
                 dataType: 'text',
                 cache: false,
-                success: function(a) {
-                    firebase.database().ref("users/"+user["id"]).remove();
+                success: function (a) {
+                    firebase.database().ref("users/" + user["id"]).remove();
                     hideProgress();
                     getUsers();
                 }
             });
         });
-        $("#confirm-cancel").unbind().on("click", function() {
+        $("#confirm-cancel").unbind().on("click", function () {
             $("#confirm-container").fadeOut(300);
         });
         $("#confirm-container").css("display", "flex").hide().fadeIn(300);
@@ -158,7 +310,7 @@ function addUser() {
     $("#edit-user-email").val("");
     $("#edit-user-password").val("");
     $("#edit-user-container").css("display", "flex").hide().fadeIn(300);
-    $("#edit-user-ok").html("Tambah").unbind().on("click", function() {
+    $("#edit-user-ok").html("Tambah").unbind().on("click", function () {
         var name = $("#edit-user-name").val().trim();
         var phone = $("#edit-user-phone").val().trim();
         var email = $("#edit-user-email").val().trim();
@@ -173,12 +325,12 @@ function addUser() {
         }
         showProgress("Menambah pengguna");
         var userID = generateUUID();
-        firebase.database().ref("users/"+userID).set({
+        firebase.database().ref("users/" + userID).set({
             name: name,
             email: email,
             password: password,
             phone: phone
-        }, function(error) {
+        }, function (error) {
             $("#edit-user-container").fadeOut(300);
             hideProgress();
             getUsers();
@@ -208,12 +360,16 @@ function decreaseMaxConn() {
 }
 
 function selectProfilePicture() {
-    $("#edit-user-select-profile-picture").on("change", function() {
+    $("#edit-user-select-profile-picture").on("change", function () {
         var fr = new FileReader();
-        fr.onload = function() {
+        fr.onload = function () {
             $("#edit-user-profile-picture").attr("src", fr.result);
         };
         fr.readAsDataURL($(this).prop("files")[0]);
     });
     $("#edit-user-select-profile-picture").click();
+}
+
+function closeSendMessageDialog() {
+    $("#chat-container").hide();
 }

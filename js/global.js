@@ -1,8 +1,8 @@
 const PHP_PATH = "http://localhost/fdelivery/php/";
 //const PHP_PATH = "http://fdelivery.xyz/php/";
 const API_KEY = "AIzaSyCNA8fwTJhMu8ju9pdg08M5zBmninVPm5k";
-const HERE_APP_ID = "Mnsa1XrsVndwuAKq13NL";
-const HERE_APP_CODE = "l2wio8_8YVfJBn8x7emtBg";
+const HERE_APP_ID = "BqM8uW7Z8qDUrv8ZxlSX";
+const HERE_APP_CODE = "Oey0WMUEYBpTe5qq3mrq5w";
 
 function show(msg) {
     $("#toast-msg").html(msg);
@@ -108,5 +108,5 @@ function generateUUID() {
 }
 
 function formatMoney(money) {
-    return (money).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    return (money).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }

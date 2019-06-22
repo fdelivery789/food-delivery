@@ -68,7 +68,7 @@ function setOrderClickListener() {
                     buyerPhone = "-";
                 }
             }
-            $("#view-order-customer-phone").html(buyerPhone);
+            $("#view-order-customer-phone").val(buyerPhone);
             firebase.database().ref("users/" + order["sellerID"] + "/phone").once("value").then(function (snapshot) {
                 var sellerPhone = "-";
                 if (snapshot != null && snapshot.exists()) {
@@ -77,7 +77,7 @@ function setOrderClickListener() {
                         sellerPhone = "-";
                     }
                 }
-                $("#view-order-seller-phone").html(sellerPhone);
+                $("#view-order-seller-phone").val(sellerPhone);
                 firebase.database().ref("users/" + order["driverID"] + "/phone").once("value").then(function (snapshot) {
                     var driverPhone = "-";
                     if (snapshot != null && snapshot.exists()) {
@@ -86,9 +86,9 @@ function setOrderClickListener() {
                             driverPhone = "-";
                         }
                     }
-                    $("#view-order-driver-phone").html(driverPhone);
+                    $("#view-order-driver-phone").val(driverPhone);
                     firebase.database().ref("users/" + order["driverID"] + "/new_order_fee").once("value").then(function (snapshot) {
-                        $("#view-order-fee").html("Rp" + formatMoney(snapshot.val()) + ",-");
+                        $("#view-order-fee").val("Rp" + formatMoney(snapshot.val()) + ",-");
                     });
                 });
             });
@@ -107,7 +107,7 @@ function setOrderClickListener() {
                 zoom: 10,
                 center: {lat: user["latitude"], lng: user["longitude"]}
             });
-        var icon = new H.map.Icon("../img/map.png");
+        var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
         var marker = new H.map.Marker({lat: user["latitude"], lng: user["longitude"]}, {icon: icon});
         map.addObject(marker);
     });

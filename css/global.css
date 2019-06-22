@@ -196,6 +196,22 @@ button::-moz-focus-inner {
     color: #5a5db4;
 }
 
+.link2 {
+    text-decoration: none!important;
+    color: #f1c40f;
+    font-size: 15px;
+    font-family: PalanquinRegular;
+    cursor: pointer;
+}
+
+.link2:active {
+    color: #f39c12;
+}
+
+.link2:focus {
+    color: #f39c12;
+}
+
 .input2, textarea {
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
