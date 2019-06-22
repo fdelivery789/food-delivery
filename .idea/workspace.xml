@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fad0f770-8cad-4345-b3dd-fb30ca8c409c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/js/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/db.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/send-message.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/send-message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/global.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +17,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/db.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
@@ -77,6 +74,15 @@
                 <element signature="n#style#0;n#div#1;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/global.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="45" lean-forward="true" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -237,13 +243,13 @@
         <option value="$PROJECT_DIR$/admins.html" />
         <option value="$PROJECT_DIR$/orders.html" />
         <option value="$PROJECT_DIR$/restaurants.html" />
-        <option value="$PROJECT_DIR$/js/global.js" />
         <option value="$PROJECT_DIR$/js/restaurants.js" />
         <option value="$PROJECT_DIR$/css/global.css" />
         <option value="$PROJECT_DIR$/php/get-admin-id.php" />
         <option value="$PROJECT_DIR$/js/users.js" />
         <option value="$PROJECT_DIR$/users.html" />
         <option value="$PROJECT_DIR$/php/db.php" />
+        <option value="$PROJECT_DIR$/js/global.js" />
       </list>
     </option>
   </component>
@@ -385,12 +391,12 @@
       <workItem from="1560768134993" duration="17954000" />
       <workItem from="1560802661551" duration="2943000" />
       <workItem from="1560835179460" duration="2130000" />
-      <workItem from="1561215134763" duration="23775000" />
+      <workItem from="1561215134763" duration="23804000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116542000" />
+    <option name="totallyTimeSpent" value="116571000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="1296" height="741" extended-state="6" />
@@ -811,13 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/restaurants.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -962,6 +961,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="29" lean-forward="true" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="45" lean-forward="true" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
         </state>
       </provider>
     </entry>
