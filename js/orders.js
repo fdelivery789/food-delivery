@@ -96,6 +96,9 @@ function setOrderClickListener() {
         $("#view-order-ok").unbind().on("click", function () {
             $("#view-order-container").fadeOut(300);
         });
+        $("#view-order-cancel").unbind().on("click", function() {
+            $("#view-order-container").fadeOut(300);
+        });
         $("#view-order-container").css("display", "flex").hide().fadeIn(300);
         if (map != null) {
             $("#map-container").remove(map);
