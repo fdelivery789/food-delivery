@@ -21,11 +21,12 @@ $(document).ready(function () {
                     return false;
                 }
             });
-            firebase.database().ref("admins/"+adminID+"/new_message").on("value").then(function(snapshot) {
+            firebase.database().ref("admins/"+adminID+"/new_message").on("value", function(snapshot) {
                 var newMessage = parseInt(snapshot.val());
                 console.log("New message: "+newMessage);
                 if (newMessage == 1) {
                     // New message received
+                    console.log("New message received");
                     var updates = {};
                     updates["admins/"+adminID+"/new_message"] = 0;
                     firebase.database().ref().update(updates);
@@ -39,9 +40,11 @@ $(document).ready(function () {
                                 var senderName = snapshot.val();
                                 console.log("Sender name: "+senderName);
                                 $("#messages").append("" +
-                                    "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                    "<div style='position: relative; width: 100%; height: 60px;'>"+
+                                    "<div style='position: absolute; top: 0; right: 0; margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
                                     "<div style='color: #888888; font-size: 14px;'>" + senderName + "</div>" +
                                     "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                    "</div>"+
                                     "</div>");
                                 $("#messages").scrollTop($("#messages").prop("scrollHeight"));
                             });
@@ -75,6 +78,7 @@ function sendMessage(message) {
         fd.append("message", message);
         fd.append("admin_id", adminID);
         fd.append("user_id", currentUser["id"]);
+        fd.append("sender", 1);
         $.ajax({
             type: 'POST',
             url: PHP_PATH+'send-message.php',
@@ -175,18 +179,20 @@ function getMessages() {
                         var messageJSON = messagesJSON[i];
                         var message = messageJSON["message"];
                         var sender = messageJSON["sender"]; //1 = admin, 2 = user
-                        if (sender == 1) {
+                        if (sender == 1) { //admin
                             $("#messages").append("" +
                                 "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
                                 "<div style='color: #888888; font-size: 14px;'>" + adminName + "</div>" +
                                 "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
                                 "</div>");
                             $("#messages").scrollTop($("#messages").prop("scrollHeight"));
-                        } else if (sender == 2) {
+                        } else if (sender == 2) { //user
                             $("#messages").append("" +
-                                "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
-                                "<div style='color: #888888; font-size: 14px;'>" + currentUserName + "</div>" +
-                                "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                "<div style='position: relative; width: 100%; height: 60px;'>"+
+                                    "<div style='position: absolute; top: 0; right: 0; margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                        "<div style='color: #888888; font-size: 14px;'>" + currentUserName + "</div>" +
+                                        "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                    "</div>"+
                                 "</div>");
                             $("#messages").scrollTop($("#messages").prop("scrollHeight"));
                         }
