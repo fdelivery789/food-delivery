@@ -8,5 +8,12 @@ if ($results && $results->num_rows > 0) {
 	while ($row = $results->fetch_assoc()) {
 		array_push($restaurants, $row);
 	}
+} else {
+	$results = $c->query("SELECT * FROM restaurants ORDER BY latitude");
+	if ($results && $results->num_rows > 0) {
+		while ($row = $results->fetch_assoc()) {
+			array_push($restaurants, $row);
+		}
+	}
 }
 echo json_encode($restaurants);
