@@ -5,6 +5,7 @@ var platform;
 var mapTypes;
 var currentLatitude = 0;
 var currentLongitude = 0;
+var timeout;
 
 $(document).ready(function() {
     platform = new H.service.Platform({
@@ -75,58 +76,8 @@ function setRestaurantClickListener() {
         var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
         latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
         map.addObject(latestMarker);
-        var timeout = null;
-        $("#edit-restaurant-map").val("").on("keyup", function() {
-            var field = this;
-            if (timeout !== null) {
-                clearTimeout(timeout);
-            }
-            timeout = setTimeout(function () {
-                var value = $(field).val();
-                console.log("Searching for location: "+value);
-                $.ajax({
-                    type: 'GET',
-                    url: "http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
-                    dataType: 'text',
-                    cache: false,
-                    success: function(response) {
-                        console.log("Response: "+response);
-                        var suggestions = JSON.parse(response)["suggestions"];
-                        if (suggestions.length > 0) {
-                            var suggestion = suggestions[0];
-                            var label = suggestion["label"];
-                            var locationId = suggestion["locationId"];
-                            console.log("Location ID: "+locationId);
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
-                                dataType: 'text',
-                                cache: false,
-                                success: function(response) {
-                                    console.log(response);
-                                    var obj = JSON.parse(response)["response"];
-                                    var views = obj["view"];
-                                    var view = views[0];
-                                    var results = view["result"];
-                                    var result = results[0];
-                                    var location = result["location"];
-                                    var displayPosition = location["displayPosition"];
-                                    var latitude = displayPosition["latitude"];
-                                    var longitude = displayPosition["longitude"];
-                                    currentLatitude = latitude;
-                                    currentLongitude = longitude;
-                                    map.removeObject(latestMarker);
-                                    var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
-                                    latestMarker = new H.map.Marker({lat: latitude, lng: longitude}, {icon: icon});
-                                    map.addObject(latestMarker);
-                                    map.setCenter({lat: latitude, lng: longitude});
-                                }
-                            });
-                        }
-                    }
-                });
-            }, 2000);
-        });
+        timeout = null;
+        setMapKeyListener();
         $("#edit-restaurant-ok").html("Simpan").unbind().on("click", function() {
             var name = $("#edit-restaurant-name").val().trim();
             var address = $("#edit-restaurant-address").val().trim();
@@ -152,6 +103,101 @@ function setRestaurantClickListener() {
     });
 }
 
+function setMapKeyListener() {
+    $("#edit-restaurant-map").val("").on("keyup", function() {
+        var field = this;
+        if (timeout !== null) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+            var value = $(field).val();
+            console.log("Searching for location: "+value);
+            $.ajax({
+                type: 'GET',
+                url: "http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
+                dataType: 'text',
+                cache: false,
+                success: function(response) {
+                    console.log("Response: "+response);
+                    var suggestions = JSON.parse(response)["suggestions"];
+                    if (suggestions.length > 0) {
+                        var suggestion = suggestions[0];
+                        var label = suggestion["label"];
+                        var locationId = suggestion["locationId"];
+                        console.log("Location ID: "+locationId);
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
+                            dataType: 'text',
+                            cache: false,
+                            success: function(response) {
+                                console.log(response);
+                                var obj = JSON.parse(response)["response"];
+                                var views = obj["view"];
+                                var view = views[0];
+                                var results = view["result"];
+                                var result = results[0];
+                                var location = result["location"];
+                                var displayPosition = location["displayPosition"];
+                                var latitude = displayPosition["latitude"];
+                                var longitude = displayPosition["longitude"];
+                                currentLatitude = latitude;
+                                currentLongitude = longitude;
+                                map.removeObject(latestMarker);
+                                var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
+                                latestMarker = new H.map.Marker({lat: latitude, lng: longitude}, {icon: icon});
+                                map.addObject(latestMarker);
+                                map.setCenter({lat: latitude, lng: longitude});
+                            }
+                        });
+                    }
+                }
+            });
+        }, 2000);
+    });
+}
+
 function closeEditRestaurantDialog() {
     $("#edit-restaurant-container").fadeOut(300);
+}
+
+function addRestaurant() {
+    $("#edit-restaurant-title").html("Tambah Restoran");
+    $("#edit-restaurant-name").val("");
+    $("#edit-restaurant-address").val("");
+    $("#edit-restaurant-map").val("");
+    if (map != null) {
+        $("#map-container").remove(map);
+    }
+    map = new H.Map(document.getElementById("map"), mapTypes.normal.map, {
+        zoom: 10,
+        center: {lat: -6.229728, lng: 106.6894287}
+    });
+    var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
+    latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
+    map.addObject(latestMarker);
+    timeout = null;
+    setMapKeyListener();
+    $("#edit-restaurant-ok").unbind().on("click", function() {
+        var name = $("#edit-restaurant-name").val().trim();
+        var address = $("#edit-restaurant-address").val().trim();
+        if (name == "") {
+            show("Mohon masukkan nama restoran");
+            return;
+        }
+        if (address == "") {
+            show("Mohon masukkan alamat restoran");
+            return;
+        }
+        showProgress("Mengubah informasi restoran");
+        var restaurantID = generateUUID();
+        firebase.database().ref("restaurants/"+restaurantID).set({
+            name: name,
+            address: address,
+            latitude: currentLatitude,
+            longitude: currentLongitude
+        });
+        hideProgress();
+        $("#edit-restaurant-container").fadeOut(300);
+    });
 }
