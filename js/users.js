@@ -152,21 +152,24 @@ function getUsers() {
 }
 
 function getMessages() {
+    $("#messages").find("*").remove();
     var fd = new FormData();
     fd.append("admin_id", adminID);
     fd.append("user_id", currentUser["id"]);
     firebase.database().ref("users/"+currentUser["id"]+"/name").once("value").then(function(snapshot) {
         currentUserName = snapshot.val();
-        firebase.database().ref("users/"+adminID+"/name").once("value").then(function(snapshot) {
+        firebase.database().ref("admins/"+adminID+"/name").once("value").then(function(snapshot) {
             adminName = snapshot.val();
+            console.log("User name: "+currentUserName+", admin name: "+adminName);
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: PHP_PATH+'get-messages.php',
                 data: fd,
-                dataType: false,
                 contentType: false,
+                processData: false,
                 cache: false,
                 success: function(response) {
+                    console.log("Response: "+response);
                     var messagesJSON = JSON.parse(response);
                     for (var i=0; i<messagesJSON.length; i++) {
                         var messageJSON = messagesJSON[i];
