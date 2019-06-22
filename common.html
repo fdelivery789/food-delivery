@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/common.js"></script>
+    <link href="css/global.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div style="width: 100%; height: 100%; display: flex; flex-flow: row nowrap; position: fixed; left: 0; top: 0;">
+    <div style="width: 200px; height: 100%; background-color: #2e2f4d; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+        <div style="width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;">
+            <img src="img/icon.png" width="60px" height="60px">
+        </div>
+        <div onclick="openCommon()" class="menu-item-active" style="margin-left: 10px; margin-top: 20px;">
+            <img src="img/settings.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Umum</div>
+        </div>
+        <div onclick="openUsers()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/user-2.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Pengguna</div>
+        </div>
+        <div onclick="openAdmins()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/admin.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Admin</div>
+        </div>
+        <div onclick="openPurchases()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/money.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Pembayaran</div>
+        </div>
+        <div onclick="openChannels()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/tv.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Channel</div>
+        </div>
+        <div onclick="logout()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/logout.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Keluar</div>
+        </div>
+    </div>
+    <div style="width: calc(100% - 200px); display: flex; flex-flow: column nowrap; padding-top: 30px; overflow-y: scroll;">
+        <div style="display: flex; flex-flow: row nowrap; margin-left: 20px;">
+            <img src="img/settings-2.png" width="50px" height="50px">
+            <div style="margin-left: 10px; font-size: 25px; color: #717179;">Pengaturan Umum</div>
+        </div>
+        <div style="margin-top: 20px; width: 160px; padding-right: 10px; padding-left: 10px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-top-left-radius: 30px; border-bottom-left-radius: 30px; margin-left: 20px; display: flex; flex-flow: row nowrap; align-items: center; justify-content: center; height: 45px; font-family: PalanquinBold; font-size: 18px; background-image: linear-gradient(#535281, #2f2e4d); color: white;">
+            Rekening Bank
+        </div>
+        <table class="flat-table" style="margin-top: 20px; margin-left: 20px;">
+            <thead>
+                <tr>
+                    <th>No. Rekening</th>
+                    <th>Nama Bank</th>
+                    <th>Nama Pemilik</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody id="banks">
+                <!--<tr>
+                    <td>0819123</td>
+                    <td>BCA</td>
+                    <td>SAMSYUL HIDAYAT</td>
+                    <td><a class="link" href="#">Hapus</a></td>
+                </tr>-->
+            </tbody>
+            <tr>
+            </tr>
+        </table>
+        <div style="width: 600px; margin-left: 20px; display: flex; justify-content: flex-end;">
+            <button onclick="addBank()" class="button6">Tambah</button>
+        </div>
+
+        <!--
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Rekening utama:</div>
+        <input id="account-number" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;" placeholder="No. rekening">
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 5px;">Nama bank:</div>
+        <input id="bank-name" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;" placeholder="Nama bank">
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 5px;">Atas nama:</div>
+        <input id="account-holder" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;" placeholder="Atas nama">
+        <div style="margin-top: 20px; width: 160px; padding-left: 10px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; display: flex; flex-flow: row nowrap; align-items: center; height: 45px; font-family: PalanquinBold; font-size: 18px; background-image: linear-gradient(#f9a114, #fee453); color: white;">Daftar Harga</div>-->
+        <div style="margin-top: 20px; width: 160px; padding-right: 10px; padding-left: 10px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-top-left-radius: 30px; border-bottom-left-radius: 30px; margin-left: 20px; display: flex; flex-flow: row nowrap; align-items: center; justify-content: center; height: 45px; font-family: PalanquinBold; font-size: 18px; background-image: linear-gradient(#535281, #2f2e4d); color: white;">
+            Daftar Harga
+        </div>
+        <!-- HARGA 1 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Harga 1 bulan:</div>
+        <input id="month-1" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Harga" onkeypress="validate(event)">
+        <!-- FITUR 1 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 1 bulan (1):</div>
+        <input id="month-1-feature-1" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 1 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 1 bulan (2):</div>
+        <input id="month-1-feature-2" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 1 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 1 bulan (3):</div>
+        <input id="month-1-feature-3" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 1 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 1 bulan (4):</div>
+        <input id="month-1-feature-4" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+
+        <!-- HARGA 3 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Harga 3 bulan:</div>
+        <input id="month-3" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Harga" onkeypress="validate(event)">
+        <!-- FITUR 3 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 3 bulan (1):</div>
+        <input id="month-3-feature-1" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 3 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 3 bulan (2):</div>
+        <input id="month-3-feature-2" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 3 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 3 bulan (3):</div>
+        <input id="month-3-feature-3" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 3 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 3 bulan (4):</div>
+        <input id="month-3-feature-4" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+
+        <!-- HARGA 6 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Harga 6 bulan:</div>
+        <input id="month-6" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Harga" onkeypress="validate(event)">
+        <!-- FITUR 6 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 6 bulan (1):</div>
+        <input id="month-6-feature-1" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 6 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 6 bulan (2):</div>
+        <input id="month-6-feature-2" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 6 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 6 bulan (3):</div>
+        <input id="month-6-feature-3" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 6 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 6 bulan (4):</div>
+        <input id="month-6-feature-4" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+
+        <!-- HARGA 12 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Harga 12 bulan:</div>
+        <input id="month-12" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Harga" onkeypress="validate(event)">
+        <!-- FITUR 12 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 12 bulan (1):</div>
+        <input id="month-12-feature-1" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 12 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 12 bulan (2):</div>
+        <input id="month-12-feature-2" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 12 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 12 bulan (3):</div>
+        <input id="month-12-feature-3" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <!-- FITUR 12 BULAN -->
+        <div style="font-family: PalanquinBold; margin-left: 20px; margin-top: 10px;">Fitur 12 bulan (4):</div>
+        <input id="month-12-feature-4" class="input1" style="width: 400px; margin-top: 5px; margin-left: 20px;"
+               placeholder="Fitur">
+        <div style="width: 440px; display: flex; justify-content: flex-start; margin-top: 10px; margin-bottom: 20px;">
+            <button onclick="saveSettings()" class="button6" style="width: 200px; margin-left: 20px;">SIMPAN</button>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+</div>
+<div id="add-bank-container" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
+    <div style="width: 500px; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap;">
+        <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
+            <div style="margin-left: 20px; margin-right: 20px;">Tambah Bank</div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama pemilik:</div>
+        <input class="input2" id="add-bank-holder" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Jenis bank:</div>
+        <!--<input class="input2" id="add-bank-name" type="text" style="margin-left: 20px; margin-right: 20px;">-->
+        <select id="add-bank-name" class="select1" style="width: calc(100% - 40px); margin-left: 20px; margin-right: 20px;">
+            <option>Pilih jenis bank</option>
+            <option>BNI</option>
+            <option>BCA</option>
+            <option>BRI</option>
+            <option>BTN</option>
+            <option>Mandiri</option>
+            <option>CIMB Niaga</option>
+            <option>Permata</option>
+            <option>Danamon</option>
+        </select>
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nomor rekening:</div>
+        <input class="input2" id="add-bank-number" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px; margin-bottom: 10px;">
+            <button onclick="closeAddBankDialog()" class="button5">Batal</button>
+            <button onclick="addNewBank()" class="button6" style="margin-left: 5px;">Tambah</button>
+        </div>
+    </div>
+</div>
+<div id="confirm-container"
+     style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .8);">
+    <div style="background-color: white; width: 500px; border-radius: 8px; display: flex; flex-flow: column nowrap;">
+        <div style="width: 100%; display: flex; flex-flow: row nowrap; height: 40px; align-items: center; justify-content: space-between;">
+            <div id="confirm-title"
+                 style="color: #444444; font-size: 23px; margin-left: 20px; margin-right: 20px; white-space: nowrap;"></div>
+            <div id="close-confirm"
+                 style="cursor: pointer; width: 30px; height: 100%; display: flex; justify-content: center; align-items: center;">
+                <img src="img/close.png" width="15px" height="15px">
+            </div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, 0);"></div>
+        <div id="confirm-msg"
+             style="background-color: #eeeeee; color: black; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;">
+        </div>
+        <div style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: #eeeeee; width: 100%; display: flex; flex-flow: row nowrap; justify-content: flex-end;">
+            <button id="confirm-cancel" class="button3"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">Batal
+            </button>
+            <button id="confirm-ok" class="button3" style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+<div id="loading-blocker"
+     style="background-color: rgba(0, 0, 0, .3); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%;"></div>
+<div id="loading-container"
+     style="position: fixed; left: 0; bottom: 0; margin-bottom: -45px; width: 100%; height: 45px; color: white; font-family: PalanquinBold; display: flex; flex-flow: row nowrap; align-items: center; background-color: #3498db; transition: margin-bottom .5s;">
+    <div id="loading-msg" style="margin-left: 20px;"></div>
+</div>
+<div id="toast-container" style="position: fixed; left: 0; bottom: 20px; width: 100%; display: none; justify-content: center;">
+    <div id="toast-msg" style="border-radius: 5px; background-color: rgba(0, 0, 0, .8); color: white; height: 30px; padding-left: 20px; padding-right: 20px;"></div>
+</div>
+</body>
+</html>

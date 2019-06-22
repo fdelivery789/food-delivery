@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<script src="jquery.js"></script>
+        <script>
+			$(document).ready(function() {
+				var date = new Date(1556416467266);
+				$("#my-content").html(date.getDate()+" "+date.getMonth()+" "+date.getFullYear());
+			});
+        </script>
+    </head>
+	<body>
+		<p id="my-content"></p>
+	</body>
+</html>

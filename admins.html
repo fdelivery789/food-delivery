@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCGoKLL22VdPxdAAYgzdadeQ54qGUH4uK0",
+            authDomain: "food-delivery-e5147.firebaseapp.com",
+            databaseURL: "https://food-delivery-e5147.firebaseio.com",
+            projectId: "food-delivery-e5147",
+            storageBucket: "food-delivery-e5147.appspot.com",
+            messagingSenderId: "475606951826",
+            appId: "1:475606951826:web:85128e05e8906976"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="js/global.js"></script>
+    <script src="js/admins.js"></script>
+    <link href="css/global.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div style="width: 100%; height: 100%; display: flex; flex-flow: row nowrap; position: fixed; left: 0; top: 0;">
+    <div style="width: 200px; height: 100%; background-color: #2e2f4d; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+        <div style="width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;">
+            <img src="img/icon.png" width="60px" height="60px">
+        </div>
+        <div onclick="openCommon()" class="menu-item" style="margin-left: 10px; margin-top: 20px;">
+            <img src="img/settings.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Umum</div>
+        </div>
+        <div onclick="openUsers()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/user-2.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Pengguna</div>
+        </div>
+        <div onclick="openAdmins()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/admin.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Admin</div>
+        </div>
+        <div onclick="openPurchases()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/money.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Pembayaran</div>
+        </div>
+        <div onclick="openChannels()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/tv.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Channel</div>
+        </div>
+        <div onclick="logout()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
+            <img src="img/logout.png" width="20px" height="20px">
+            <div style="margin-left: 10px;">Keluar</div>
+        </div>
+    </div>
+    <div style="width: calc(100% - 200px); display: flex; flex-flow: column nowrap; padding-top: 30px; overflow-y: scroll;">
+        <div style="display: flex; flex-flow: row nowrap; margin-left: 20px;">
+            <img src="img/settings-2.png" width="50px" height="50px">
+            <div style="margin-left: 10px; font-size: 25px; color: #717179;">Daftar Admin</div>
+        </div>
+        <table class="flat-table" style="width: 1000px; margin-left: 20px; margin-top: 10px;">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Nama</th>
+                <th>No. HP</th>
+                <th>Kata Sandi</th>
+                <th>Email</th>
+                <th>Ubah</th>
+                <th>Hapus</th>
+            </tr>
+            </thead>
+            <tbody id="admins">
+            </tbody>
+        </table>
+        <div style="display: flex; justify-content: flex-end; width: 1000px; margin-left: 20px;">
+            <button onclick="addAdmin()" class="button6">Tambah Admin</button>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+</div>
+<div id="edit-admin-container"
+     style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
+    <div style="width: 500px; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+        <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
+            <div id="edit-admin-title" style="margin-left: 20px; margin-right: 20px;">Edit Admin</div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama:</div>
+        <input class="input2" id="edit-admin-name" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP:</div>
+        <input class="input2" id="edit-admin-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email:</div>
+        <input class="input2" id="edit-admin-email" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Kata sandi:
+        </div>
+        <input class="input2" id="edit-admin-password" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
+            <button onclick="closeEditAdminDialog()" class="button5">Batal</button>
+            <button id="edit-admin-ok" class="button4" style="margin-left: 5px;">Tambah</button>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+</div>
+<div id="confirm-container"
+     style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .8);">
+    <div style="background-color: white; width: 500px; border-radius: 8px; display: flex; flex-flow: column nowrap;">
+        <div style="width: 100%; display: flex; flex-flow: row nowrap; height: 40px; align-items: center; justify-content: space-between;">
+            <div id="confirm-title"
+                 style="color: #444444; font-size: 23px; margin-left: 20px; margin-right: 20px; white-space: nowrap;"></div>
+            <div id="close-confirm"
+                 style="cursor: pointer; width: 30px; height: 100%; display: flex; justify-content: center; align-items: center;">
+                <img src="img/close.png" width="15px" height="15px">
+            </div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, 0);"></div>
+        <div id="confirm-msg"
+             style="background-color: #eeeeee; color: black; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;">
+        </div>
+        <div style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: #eeeeee; width: 100%; display: flex; flex-flow: row nowrap; justify-content: flex-end;">
+            <button id="confirm-cancel" class="button3"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">Batal
+            </button>
+            <button id="confirm-ok" class="button3"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+<div id="loading-blocker"
+     style="background-color: rgba(0, 0, 0, .3); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%;"></div>
+<div id="loading-container"
+     style="position: fixed; left: 0; bottom: 0; margin-bottom: -45px; width: 100%; height: 45px; color: white; font-family: PalanquinBold; display: flex; flex-flow: row nowrap; align-items: center; background-color: #3498db; transition: margin-bottom .5s;">
+    <div id="loading-msg" style="margin-left: 20px;"></div>
+</div>
+<div id="toast-container"
+     style="position: fixed; left: 0; bottom: 20px; width: 100%; display: none; justify-content: center;">
+    <div id="toast-msg"
+         style="border-radius: 5px; background-color: rgba(0, 0, 0, .8); color: white; height: 30px; padding-left: 20px; padding-right: 20px;"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "joss-stream-backend",
+  "version": "1.0.0",
+  "description": "Joss Stream Backend",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/danaossoftware/jossstreambe",
+  "keywords": [
+    "IPTV",
+	"player"
+  ],
+  "author": "Dana Prakoso",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^4.0.4"
+  }
+}

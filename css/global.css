@@ -1,0 +1,307 @@
+@font-face {
+    font-family: 'PalanquinBold';
+    src: url('../fonts/Palanquin-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'PalanquinRegular';
+    src: url('../fonts/Palanquin-Regular.ttf');
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    overflow-x: hidden;
+    font-family: 'PalanquinRegular', Arial;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div {
+    flex-shrink: 0;
+}
+
+input {
+    flex-shrink: 0;
+}
+
+.button1 {
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 50px;
+    border-radius: 20px;
+    border: 1px solid white;
+    color: white;
+    font-family: PalanquinBold;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button1:active {
+    background-color: white;
+    color: black;
+}
+
+.button2 {
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid white;
+    color: white;
+    font-family: PalanquinBold;
+    background-color: #3aaf9f;
+    transition: background-color .3s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button2:active {
+    background-color: #2e7f6f;
+}
+
+.button3 {
+    background-color: #418bca;
+    color: white;
+    height: 30px;
+    border-radius: 4px;
+    transition: background-color .3s;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button3:active {
+    background-color: #3c71ab;
+}
+
+.button4 {
+    background-image: linear-gradient(#673AB7, #512DA8);
+    border: 0;
+    border-radius: 5px;
+    height: 35px;
+    color: white;
+    font-family: PalanquinBold;
+    padding-left: 15px;
+    padding-right: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button4:active {
+    background-image: linear-gradient(#512DA8, #673AB7);
+}
+
+.button5 {
+    background-image: linear-gradient(#ffffff, #eeeeee);
+    border: 1px solid #ebebeb;
+    border-radius: 5px;
+    height: 35px;
+    color: #444444;
+    font-family: PalanquinBold;
+    padding-left: 15px;
+    padding-right: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button5:active {
+    background-image: linear-gradient(#eeeeee, #ffffff);
+}
+
+.button6 {
+    background-image: linear-gradient(#535281, #2f2e4d);
+    border-radius: 5px;
+    height: 35px;
+    color: white;
+    font-family: PalanquinBold;
+    padding-left: 15px;
+    padding-right: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button6:active {
+    background-image: linear-gradient(#2f2e4d, #535281);
+}
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+*:focus {
+    outline: 0;
+}
+
+*:active {
+    outline: 0;
+}
+
+.input1 {
+    height: 30px;
+    background-color: #dddddd;
+    border: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #444444;
+    border-radius: 5px;
+}
+
+.input1::placeholder {
+    color: #444444;
+    font-family: PalanquinRegular;
+}
+
+.link {
+    text-decoration: none!important;
+    color: #6d7ae0;
+    font-size: 15px;
+    font-family: PalanquinRegular;
+    cursor: pointer;
+}
+
+.link:active {
+    color: #5a5db4;
+}
+
+.link:focus {
+    color: #5a5db4;
+}
+
+.input2, textarea {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #DDDDDD;
+    background-color: #eeeeee;
+    height: 24px;
+}
+
+.input2:focus, textarea:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgba(81, 203, 238, 1);
+    background-color: #eeeeee;
+    height: 25px;
+}
+
+.select1 {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    background-color: white;
+    border-radius: 5px;
+    height: 30px;
+    border: 0;
+    flex-shrink: 0;
+}
+
+.select1:focus {
+    border-color: rgba(82, 168, 236, 0.8);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0;
+    outline: thin dotted \9;
+    /* IE6-9 */
+}
+
+.menu-item {
+    color: #eeeeee;
+    height: 35px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    cursor: pointer;
+    padding-left: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: background-color .3s;
+}
+
+.menu-item:active {
+    background-color: #2a2c43;
+}
+
+.menu-item-active {
+    color: #eeeeee;
+    height: 35px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    cursor: pointer;
+    padding-left: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: background-color .3s;
+    background-color: #2a2c43;
+}
+
+.flat-table {
+    width: 600px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.flat-table thead tr {
+    background-color: #2f2e4d;
+    color: white;
+    height: 40px;
+    text-align: center;
+}
+
+.flat-table tbody tr {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+    text-align: center;
+}
+
+.flat-table td {
+    height: 40px;
+}

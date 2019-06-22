@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCGoKLL22VdPxdAAYgzdadeQ54qGUH4uK0",
+            authDomain: "food-delivery-e5147.firebaseapp.com",
+            databaseURL: "https://food-delivery-e5147.firebaseio.com",
+            projectId: "food-delivery-e5147",
+            storageBucket: "food-delivery-e5147.appspot.com",
+            messagingSenderId: "475606951826",
+            appId: "1:475606951826:web:85128e05e8906976"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="js/global.js"></script>
+    <script src="js/login.js"></script>
+    <link href="css/global.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div style="display: flex; width: 100%; height: 100%; flex-flow: row nowrap;">
+    <div style="position: relative; display: flex; flex-flow: column nowrap; justify-content: center; align-items: center; background-image: linear-gradient(to bottom, #3aada1, #4cc196); width: 450px; height: 100%;">
+        <div style="position: absolute; left: 0; top: 0; width: 450px; height: 100%; display: flex; flex-flow: column nowrap; justify-content: center; align-items: center;">
+            <div style="color: white; font-size: 23px; font-family: PalanquinBold;">Selamat datang!</div>
+            <div style="color: white; margin-left: 16px; margin-right: 16px; text-align: center;">Belum punya akun? Silahkan daftar terlebih dahulu.</div>
+            <button class="button1" onclick="window.location.href='signup.html'" style="margin-top: 20px;">DAFTAR</button>
+        </div>
+    </div>
+    <div style="width: calc(100% - 450px); height: 100%; display: flex; flex-flow: column nowrap; align-items: center;">
+        <div style="color: #3db19f; font-family: PalanquinBold; font-size: 25px; margin-top: 220px;">MASUK</div>
+        <div style="position: relative; margin-top: 10px; height: 40px; width: 500px;">
+            <input id="email" type="email" class="input1" style="position: absolute; padding-left: 35px; left: 0; top: 0; width: 455px;" placeholder="Email">
+            <div style="position: absolute; left: 10px; top: 0; height: 100%; display: flex; flex-flow: row nowrap; align-items: center;">
+                <img src="img/email.png" width="15px" height="15px">
+            </div>
+        </div>
+        <div style="position: relative; margin-top: 10px; height: 40px; width: 500px;">
+            <input id="password" type="password" class="input1" style="position: absolute; padding-left: 35px; left: 0; top: 0; width: 455px;" placeholder="Kata Sandi">
+            <div style="position: absolute; left: 10px; top: 0; height: 100%; display: flex; flex-flow: row nowrap; align-items: center;">
+                <img src="img/password.png" width="15px" height="15px">
+            </div>
+        </div>
+        <button onclick="login()" class="button2" style="margin-top: 20px;">MASUK</button>
+    </div>
+</div>
+<div id="toast-container" style="position: fixed; left: 0; bottom: 20px; width: 100%; display: none; justify-content: center;">
+    <div id="toast-msg" style="border-radius: 5px; background-color: rgba(0, 0, 0, .8); color: white; height: 30px; padding-left: 20px; padding-right: 20px;"></div>
+</div>
+<div id="alert-container" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .8);">
+    <div style="background-color: white; width: 500px; border-radius: 8px; display: flex; flex-flow: column nowrap;">
+        <div style="width: 100%; display: flex; flex-flow: row nowrap; height: 40px; align-items: center; justify-content: space-between;">
+            <div id="alert-title" style="color: #444444; font-size: 23px; margin-left: 20px; margin-right: 20px; white-space: nowrap;"></div>
+            <div id="close-alert" style="cursor: pointer; width: 30px; height: 100%; display: flex; justify-content: center; align-items: center;">
+                <img src="img/close.png" width="15px" height="15px">
+            </div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, 0);"></div>
+        <div id="alert-msg" style="background-color: #eeeeee; color: black; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;">
+        </div>
+        <div style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: #eeeeee; width: 100%; display: flex; flex-flow: row nowrap; justify-content: flex-end;">
+            <button id="alert-ok" class="button3" style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">OK</button>
+        </div>
+    </div>
+</div>
+<div id="loading-blocker" style="background-color: rgba(0, 0, 0, .3); display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%;"></div>
+<div id="loading-container" style="position: fixed; left: 0; bottom: 0; margin-bottom: -45px; width: 100%; height: 45px; color: white; font-family: PalanquinBold; display: flex; flex-flow: row nowrap; align-items: center; background-color: #3498db; transition: margin-bottom .5s;">
+    <div id="loading-msg" style="margin-left: 20px;"></div>
+</div>
+</body>
+</html>
