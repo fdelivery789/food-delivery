@@ -86,40 +86,21 @@
         <input class="input2" id="view-order-driver-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Total Biaya:</div>
         <input class="input2" id="view-order-fee" type="text" style="margin-left: 20px; margin-right: 20px;">
-        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
-            <button id="view-order-delete" class="button5" style="margin-left: 5px;">Hapus</button>
-            <button id="view-order-ok" class="button4" style="margin-left: 5px;">OK</button>
-        </div>
         <div>&nbsp;</div>
     </div>
-    <div style="width: 500px; height: 500px; background-color: white; border-top-right-radius: 5px; border-bottom-right-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden;">
+    <div id="map-container" style="width: 500px; height: 500px; background-color: white; border-top-right-radius: 5px; border-bottom-right-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden;">
         <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
             <div style="margin-left: 20px; margin-right: 20px;">&nbsp;</div>
         </div>
         <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Pantau Lokasi Driver:</div>
-        <div style="width: 300px; height: 300px" id="mapContainer"></div>
+        <div id="map" style="width: calc(100% - 40px); margin-left: 20px; margin-right: 20px; margin-top: 10px; height: 230px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .3);"></div>
+        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
+            <button onclick="closeViewOrderDialog()" class="button5" style="margin-left: 5px;">Batal</button>
+            <button id="view-order-ok" class="button4" style="margin-left: 5px;">OK</button>
+        </div>
     </div>
 </div>
-<script>
-    // Initialize the platform object:
-    var platform = new H.service.Platform({
-        'app_id': 'Mnsa1XrsVndwuAKq13NL',
-        'app_code': 'l2wio8_8YVfJBn8x7emtBg'
-    });
-
-    // Obtain the default map types from the platform object
-    var maptypes = platform.createDefaultLayers();
-
-    // Instantiate (and display) a map object:
-    var map = new H.Map(
-        document.getElementById('mapContainer'),
-        maptypes.normal.map,
-        {
-            zoom: 10,
-            center: { lng: 13.4, lat: 52.51 }
-        });
-</script>
 <div id="confirm-container"
      style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .8);">
     <div style="background-color: white; width: 500px; border-radius: 8px; display: flex; flex-flow: column nowrap;">
