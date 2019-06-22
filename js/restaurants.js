@@ -200,4 +200,5 @@ function addRestaurant() {
         hideProgress();
         $("#edit-restaurant-container").fadeOut(300);
     });
+    $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
 }
