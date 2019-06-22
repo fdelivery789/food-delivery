@@ -174,7 +174,7 @@ function addRestaurant() {
         center: {lat: -6.229728, lng: 106.6894287}
     });
     var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
-    latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
+    latestMarker = new H.map.Marker({lat: -6.229728, lng: 106.6894287}, {icon: icon});
     map.addObject(latestMarker);
     timeout = null;
     setMapKeyListener();
