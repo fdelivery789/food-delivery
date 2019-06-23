@@ -5,6 +5,9 @@ var currentUser;
 var currentUserName;
 var adminID;
 var adminName;
+var ordersJSON;
+var orderLooper = 0;
+var nextY = 50;
 
 $(document).ready(function () {
     $.ajax({
@@ -14,37 +17,37 @@ $(document).ready(function () {
         cache: false,
         success: function (response) {
             adminID = response;
-            console.log("Admin ID: "+adminID);
+            console.log("Admin ID: " + adminID);
             $("#message").keypress(function (e) {
                 if (e.which == 13) {
                     sendMessage($("#message").val());
                     return false;
                 }
             });
-            firebase.database().ref("admins/"+adminID+"/new_message").on("value", function(snapshot) {
+            firebase.database().ref("admins/" + adminID + "/new_message").on("value", function (snapshot) {
                 var newMessage = parseInt(snapshot.val());
-                console.log("New message: "+newMessage);
+                console.log("New message: " + newMessage);
                 if (newMessage == 1) {
                     // New message received
                     console.log("New message received");
                     var updates = {};
-                    updates["admins/"+adminID+"/new_message"] = 0;
+                    updates["admins/" + adminID + "/new_message"] = 0;
                     firebase.database().ref().update(updates);
-                    firebase.database().ref("admins/"+adminID+"/new_message_content").once("value").then(function(snapshot) {
+                    firebase.database().ref("admins/" + adminID + "/new_message_content").once("value").then(function (snapshot) {
                         var message = snapshot.val();
-                        console.log("New message content: "+message);
-                        firebase.database().ref("admins/"+adminID+"/new_message_sender_id").once("value").then(function(snapshot) {
+                        console.log("New message content: " + message);
+                        firebase.database().ref("admins/" + adminID + "/new_message_sender_id").once("value").then(function (snapshot) {
                             var senderID = snapshot.val();
-                            console.log("Sender ID: "+senderID);
-                            firebase.database().ref("users/"+senderID+"/name").once("value").then(function(snapshot) {
+                            console.log("Sender ID: " + senderID);
+                            firebase.database().ref("users/" + senderID + "/name").once("value").then(function (snapshot) {
                                 var senderName = snapshot.val();
-                                console.log("Sender name: "+senderName);
+                                console.log("Sender name: " + senderName);
                                 $("#messages").append("" +
-                                    "<div style='position: relative; width: 100%; height: 60px;'>"+
+                                    "<div style='position: relative; width: 100%; height: 60px;'>" +
                                     "<div style='position: absolute; top: 0; right: 0; margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
                                     "<div style='color: #888888; font-size: 14px;'>" + senderName + "</div>" +
                                     "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
-                                    "</div>"+
+                                    "</div>" +
                                     "</div>");
                                 $("#messages").scrollTop($("#messages").prop("scrollHeight"));
                             });
@@ -81,12 +84,12 @@ function sendMessage(message) {
         fd.append("sender", 1);
         $.ajax({
             type: 'POST',
-            url: PHP_PATH+'send-message.php',
+            url: PHP_PATH + 'send-message.php',
             data: fd,
             contentType: false,
             processData: false,
             cache: false,
-            success: function(a) {
+            success: function (a) {
                 $("#messages").append("" +
                     "<div style='margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
                     "<div style='color: #888888; font-size: 14px;'>" + adminName + "</div>" +
@@ -142,6 +145,7 @@ function getUsers() {
                 "<td>" + name + "</td>" +
                 "<td>" + email + "</td>" +
                 "<td>" + position + "</td>" +
+                "<td><a class='download-history link'>Download History</a></td>" +
                 "<td><a class='send-message link'>Kirim</a></td>" +
                 "<td><a class='edit-user link'>Ubah</a></td>" +
                 "<td><a class='delete-user link'>Hapus</a></td>" +
@@ -160,22 +164,22 @@ function getMessages() {
     var fd = new FormData();
     fd.append("admin_id", adminID);
     fd.append("user_id", currentUser["id"]);
-    firebase.database().ref("users/"+currentUser["id"]+"/name").once("value").then(function(snapshot) {
+    firebase.database().ref("users/" + currentUser["id"] + "/name").once("value").then(function (snapshot) {
         currentUserName = snapshot.val();
-        firebase.database().ref("admins/"+adminID+"/name").once("value").then(function(snapshot) {
+        firebase.database().ref("admins/" + adminID + "/name").once("value").then(function (snapshot) {
             adminName = snapshot.val();
-            console.log("User name: "+currentUserName+", admin name: "+adminName);
+            console.log("User name: " + currentUserName + ", admin name: " + adminName);
             $.ajax({
                 type: 'POST',
-                url: PHP_PATH+'get-messages.php',
+                url: PHP_PATH + 'get-messages.php',
                 data: fd,
                 contentType: false,
                 processData: false,
                 cache: false,
-                success: function(response) {
-                    console.log("Response: "+response);
+                success: function (response) {
+                    console.log("Response: " + response);
                     var messagesJSON = JSON.parse(response);
-                    for (var i=0; i<messagesJSON.length; i++) {
+                    for (var i = 0; i < messagesJSON.length; i++) {
                         var messageJSON = messagesJSON[i];
                         var message = messageJSON["message"];
                         var sender = messageJSON["sender"]; //1 = admin, 2 = user
@@ -188,11 +192,11 @@ function getMessages() {
                             $("#messages").scrollTop($("#messages").prop("scrollHeight"));
                         } else if (sender == 2) { //user
                             $("#messages").append("" +
-                                "<div style='position: relative; width: 100%; height: 60px;'>"+
-                                    "<div style='position: absolute; top: 0; right: 0; margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
-                                        "<div style='color: #888888; font-size: 14px;'>" + currentUserName + "</div>" +
-                                        "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
-                                    "</div>"+
+                                "<div style='position: relative; width: 100%; height: 60px;'>" +
+                                "<div style='position: absolute; top: 0; right: 0; margin-left: 10px; margin-right: 10px; display: flex; flex-flow: column nowrap;'>" +
+                                "<div style='color: #888888; font-size: 14px;'>" + currentUserName + "</div>" +
+                                "<div style='margin-top: -8px; color: black; font-size: 16px;'>" + message + "</div>" +
+                                "</div>" +
                                 "</div>");
                             $("#messages").scrollTop($("#messages").prop("scrollHeight"));
                         }
@@ -307,6 +311,103 @@ function setUserClickListener() {
             $("#confirm-container").fadeOut(300);
         });
         $("#confirm-container").css("display", "flex").hide().fadeIn(300);
+    });
+    $(".download-history").unbind().on("click", function () {
+        var tr = $(this).parent().parent();
+        var index = tr.parent().children().index(tr);
+        var user = users[index];
+        var fd = new FormData();
+        fd.append("user_id", user["id"]);
+        show("Mengunduh riwayat pemesanan");
+        $.ajax({
+            type: 'POST',
+            url: PHP_PATH + 'get-order-history.php',
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (response) {
+                var doc = new jsPDF();
+                doc.setFontSize(17);
+                doc.text(32, 25, "Berikut ini riwayat pemesanan oleh pengguna bernama " + user["name"]);
+                nextY = 50;
+                ordersJSON = JSON.parse(response);
+                orderLooper = 0;
+                writeHistory(doc, user);
+            }
+        });
+    });
+}
+
+function writeHistory(doc, user) {
+    if (orderLooper >= ordersJSON.length) {
+        doc.save("riwayat_pemesanan.pdf");
+        return;
+    }
+    var orderJSON = ordersJSON[orderLooper];
+    orderLooper++;
+    var fd2 = new FormData();
+    fd2.append("user_id", user["id"]);
+    $.ajax({
+        type: 'POST',
+        url: PHP_PATH + 'get-user-info.php',
+        data: fd2,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (response) {
+            if (response != "-1") {
+                var userInfo = JSON.parse(response);
+                doc.text(32, nextY, "Nama pembeli:\t\t\t" + userInfo["name"]);
+                nextY += 20;
+                var fd3 = new FormData();
+                fd3.append("user_id", orderJSON["seller_id"]);
+                $.ajax({
+                    type: 'POST',
+                    url: PHP_PATH + 'get-user-info.php',
+                    data: fd3,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function (response) {
+                        if (response != "-1") {
+                            var sellerInfo = JSON.parse(response);
+                            doc.text(32, nextY, "Nama penjual:\t\t\t" + sellerInfo["name"]);
+                            nextY += 20;
+                            var fd4 = new FormData();
+                            fd4.append("user_id", orderJSON["driver_id"]);
+                            $.ajax({
+                                type: 'POST',
+                                url: PHP_PATH + 'get-user-info.php',
+                                data: fd4,
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (response) {
+                                    if (response != "-1") {
+                                        var driverInfo = JSON.parse(response);
+                                        doc.text(32, nextY, "Nama pengirim:\t\t\t" + driverInfo["name"]);
+                                        nextY += 20;
+                                        doc.text(32, nextY, "Biaya:\t\t\tRp"+formatMoney(parseInt(orderJSON["fee"]))+",-");
+                                        nextY += 20;
+                                        firebase.database().ref("restaurants/"+orderJSON["restaurant_id"]+"/name").once("value").then(function(snapshot) {
+                                            var restaurantName = snapshot.val();
+                                            doc.text(32, nextY, "Nama restoran:\t\t\t"+restaurantName);
+                                            nextY += 20;
+                                            doc.text(32, nextY, "Total item:\t\t\t"+orderJSON["total_items"]+" item");
+                                            nextY += 20;
+                                            doc.text(32, nextY, "Total harga:\t\t\tRp"+formatMoney(parseInt(orderJSON["total_price"])+",-"));
+                                            nextY += 20;
+                                            writeHistory(doc, user);
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
     });
 }
 
