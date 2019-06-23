@@ -42,6 +42,7 @@ function getOrders() {
                         "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + number + "</div></td>" +
                         "<td>" + sellerEmail + " &#8594; " + buyerEmail + "</td>" +
                         "<td>" + user["new_order_total_items"] + "</td>" +
+                        "<td><a class='download-order link'>Download</a></td>" +
                         "<td><a class='view-order link'>Lihat</a></td>" +
                         "<td><a class='delete-order link'>Hapus</a></td>" +
                         "</tr>"
@@ -135,6 +136,12 @@ function setOrderClickListener() {
             $("#confirm-container").fadeOut(300);
         });
         $("#confirm-container").css("display", "flex").hide().fadeIn(300);
+    });
+    $(".download-order").unbind().on("click", function() {
+        var tr = $(this).parent().parent();
+        var index = tr.parent().children().index(tr);
+        var order = orders[index];
+        
     });
 }
 
