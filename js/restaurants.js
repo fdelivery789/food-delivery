@@ -104,7 +104,7 @@ function setRestaurantClickListener() {
 }
 
 function setMapKeyListener() {
-    $("#edit-restaurant-map").val("").on("keyup", function() {
+    /*$("#edit-restaurant-map").val("").on("keyup", function() {
         var field = this;
         if (timeout !== null) {
             clearTimeout(timeout);
@@ -154,7 +154,7 @@ function setMapKeyListener() {
                 }
             });
         }, 2000);
-    });
+    });*/
 }
 
 function closeEditRestaurantDialog() {
@@ -165,7 +165,7 @@ function addRestaurant() {
     $("#edit-restaurant-title").html("Tambah Restoran");
     $("#edit-restaurant-name").val("");
     $("#edit-restaurant-address").val("");
-    $("#edit-restaurant-map").val("");
+    //$("#edit-restaurant-map").val("");
     if (map != null) {
         $("#map-container").remove(map);
     }
@@ -189,7 +189,7 @@ function addRestaurant() {
             show("Mohon masukkan alamat restoran");
             return;
         }
-        showProgress("Mengubah informasi restoran");
+        showProgress("Menambah restoran");
         var restaurantID = generateUUID();
         firebase.database().ref("restaurants/"+restaurantID).set({
             name: name,
