@@ -142,7 +142,7 @@ function getUsers() {
                 "<td>" + name + "</td>" +
                 "<td>" + email + "</td>" +
                 "<td>" + position + "</td>" +
-                "<td><a class='send-message link2'>Kirim</a></td>" +
+                "<td><a class='send-message link'>Kirim</a></td>" +
                 "<td><a class='edit-user link'>Ubah</a></td>" +
                 "<td><a class='delete-user link'>Hapus</a></td>" +
                 "</tr>"

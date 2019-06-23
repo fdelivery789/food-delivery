@@ -197,8 +197,8 @@ function addRestaurant() {
             latitude: currentLatitude,
             longitude: currentLongitude
         });
-        hideProgress();
         $("#edit-restaurant-container").fadeOut(300);
+        getRestaurants();
     });
     $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
 }
