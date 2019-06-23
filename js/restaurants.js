@@ -101,6 +101,24 @@ function setRestaurantClickListener() {
             });
         });
     });
+    $(".delete-restaurant").unbind().on("click", function() {
+        var td = $(this).parent();
+        var tr = td.parent();
+        var index = tr.parent().children().index(tr);
+        var restaurant = restaurants[index];
+        $("#confirm-title").html("Hapus Restoran");
+        $("#confirm-msg").html("Apakah Anda yakin ingin menghapus restoran ini?");
+        $("#confirm-ok").unbind().on("click", function() {
+            $("#confirm-container").fadeOut(300);
+            showProgress("Menghapus restoran");
+            firebase.database().ref("restaurants/"+restaurant["id"]).remove();
+            getRestaurants();
+        });
+        $("#confirm-cancel").unbind().on("click", function() {
+            $("#confirm-container").fadeOut(300);
+        });
+        $("#confirm-container").css("display", "flex").hide().fadeIn(300);
+    });
 }
 
 function setMapKeyListener() {
