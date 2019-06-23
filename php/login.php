@@ -12,6 +12,7 @@ if ($results && $results->num_rows > 0) {
     session_id("fdelivery");
     session_start();
     $_SESSION["fdelivery_user_id"] = $row["id"];
+    $_SESSION["fdelivery_logged_in"] = true;
     echo 0;
 } else {
     echo -1;
