@@ -327,8 +327,9 @@ function setUserClickListener() {
             contentType: false,
             cache: false,
             success: function (response) {
+                console.log("Order history: "+response);
                 var doc = new jsPDF();
-                doc.setFontSize(17);
+                doc.setFontSize(14);
                 doc.text(32, 25, "Berikut ini riwayat pemesanan oleh pengguna bernama " + user["name"]);
                 nextY = 50;
                 ordersJSON = JSON.parse(response);
