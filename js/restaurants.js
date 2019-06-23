@@ -8,11 +8,11 @@ var currentLongitude = 0;
 var timeout;
 
 $(document).ready(function() {
-    platform = new H.service.Platform({
+    /*platform = new H.service.Platform({
         app_id: HERE_APP_ID,
         app_code: HERE_APP_CODE
     });
-    mapTypes = platform.createDefaultLayers();
+    mapTypes = platform.createDefaultLayers();*/
     getRestaurants();
 });
 
@@ -66,7 +66,7 @@ function setRestaurantClickListener() {
         $("#edit-restaurant-name").val(restaurant["name"]);
         $("#edit-restaurant-address").val(restaurant["address"]);
         $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
-        if (map != null) {
+        /*if (map != null) {
             $("#map-container").remove(map);
         }
         map = new H.Map(document.getElementById("map"), mapTypes.normal.map, {
@@ -75,7 +75,7 @@ function setRestaurantClickListener() {
         });
         var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
         latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
-        map.addObject(latestMarker);
+        map.addObject(latestMarker);*/
         timeout = null;
         setMapKeyListener();
         $("#edit-restaurant-ok").html("Simpan").unbind().on("click", function() {
@@ -165,7 +165,7 @@ function addRestaurant() {
     $("#edit-restaurant-title").html("Tambah Restoran");
     $("#edit-restaurant-name").val("");
     $("#edit-restaurant-address").val("");
-    //$("#edit-restaurant-map").val("");
+    /*$("#edit-restaurant-map").val("");
     if (map != null) {
         $("#map-container").remove(map);
     }
@@ -175,7 +175,7 @@ function addRestaurant() {
     });
     var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
     latestMarker = new H.map.Marker({lat: -6.229728, lng: 106.6894287}, {icon: icon});
-    map.addObject(latestMarker);
+    map.addObject(latestMarker);*/
     timeout = null;
     setMapKeyListener();
     $("#edit-restaurant-ok").unbind().on("click", function() {
