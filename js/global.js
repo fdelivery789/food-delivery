@@ -4,6 +4,21 @@ const API_KEY = "AIzaSyCNA8fwTJhMu8ju9pdg08M5zBmninVPm5k";
 const HERE_APP_ID = "BqM8uW7Z8qDUrv8ZxlSX";
 const HERE_APP_CODE = "Oey0WMUEYBpTe5qq3mrq5w";
 
+$(document).ready(function() {
+    $.ajax({
+        type: 'GET',
+        url: PHP_PATH+'check-session.php',
+        dataType: 'text',
+        cache: false,
+        success: function(a) {
+            var responseCode = parseInt(a);
+            if (responseCode == -1) {
+                window.location.href = "login.html";
+            }
+        }
+    });
+});
+
 function show(msg) {
     $("#toast-msg").html(msg);
     $("#toast-container").css("display", "flex").hide().fadeIn(500);
