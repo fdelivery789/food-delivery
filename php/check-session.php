@@ -1,7 +1,9 @@
 <?php
 session_id("fdelivery");
-session_start();
-if (isset($_SESSION["fdelivery_user_id"])) {
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (isset($_SESSION["fdelivery_logged_in"]) && $_SESSION["fdelivery_logged_in"] == true) {
 	echo 0;
 } else {
 	echo -1;
