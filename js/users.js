@@ -8,6 +8,8 @@ var adminName;
 var ordersJSON;
 var orderLooper = 0;
 var nextY = 50;
+var foodsJSON;
+var foodLooper = 0;
 
 $(document).ready(function () {
     $.ajax({
@@ -318,7 +320,7 @@ function setUserClickListener() {
         var user = users[index];
         var fd = new FormData();
         fd.append("user_id", user["id"]);
-        show("Mengunduh riwayat pemesanan");
+        show("Mengunduh riwayat pemesanan, mohon tunggu");
         $.ajax({
             type: 'POST',
             url: PHP_PATH + 'get-order-history.php',
@@ -327,11 +329,10 @@ function setUserClickListener() {
             contentType: false,
             cache: false,
             success: function (response) {
-                console.log("Order history: "+response);
                 var doc = new jsPDF();
                 doc.setFontSize(14);
                 doc.text(32, 25, "Berikut ini riwayat pemesanan oleh pengguna bernama " + user["name"]);
-                nextY = 50;
+                nextY = 40;
                 ordersJSON = JSON.parse(response);
                 orderLooper = 0;
                 writeHistory(doc, user);
@@ -347,69 +348,184 @@ function writeHistory(doc, user) {
     }
     var orderJSON = ordersJSON[orderLooper];
     orderLooper++;
-    var fd2 = new FormData();
-    fd2.append("user_id", user["id"]);
-    $.ajax({
-        type: 'POST',
-        url: PHP_PATH + 'get-user-info.php',
-        data: fd2,
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function (response) {
-            if (response != "-1") {
-                var userInfo = JSON.parse(response);
-                doc.text(32, nextY, "Nama pembeli:\t\t\t" + userInfo["name"]);
-                nextY += 20;
-                var fd3 = new FormData();
-                fd3.append("user_id", orderJSON["seller_id"]);
-                $.ajax({
-                    type: 'POST',
-                    url: PHP_PATH + 'get-user-info.php',
-                    data: fd3,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    success: function (response) {
-                        if (response != "-1") {
-                            var sellerInfo = JSON.parse(response);
-                            doc.text(32, nextY, "Nama penjual:\t\t\t" + sellerInfo["name"]);
-                            nextY += 20;
-                            var fd4 = new FormData();
-                            fd4.append("user_id", orderJSON["driver_id"]);
-                            $.ajax({
-                                type: 'POST',
-                                url: PHP_PATH + 'get-user-info.php',
-                                data: fd4,
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                success: function (response) {
-                                    if (response != "-1") {
-                                        var driverInfo = JSON.parse(response);
-                                        doc.text(32, nextY, "Nama pengirim:\t\t\t" + driverInfo["name"]);
-                                        nextY += 20;
-                                        doc.text(32, nextY, "Biaya:\t\t\tRp"+formatMoney(parseInt(orderJSON["fee"]))+",-");
-                                        nextY += 20;
-                                        firebase.database().ref("restaurants/"+orderJSON["restaurant_id"]+"/name").once("value").then(function(snapshot) {
-                                            var restaurantName = snapshot.val();
-                                            doc.text(32, nextY, "Nama restoran:\t\t\t"+restaurantName);
-                                            nextY += 20;
-                                            doc.text(32, nextY, "Total item:\t\t\t"+orderJSON["total_items"]+" item");
-                                            nextY += 20;
-                                            doc.text(32, nextY, "Total harga:\t\t\tRp"+formatMoney(parseInt(orderJSON["total_price"])+",-"));
-                                            nextY += 20;
-                                            writeHistory(doc, user);
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-            }
+    console.log("User ID: "+user["id"]);
+    firebase.database().ref("users/"+user["id"]+"/name").once("value").then(function(snapshot) {
+        var buyerName = snapshot.val();
+        doc.setFontSize(18);
+        doc.text(32, nextY, "=============== ORDER "+orderJSON["id"]+" ===============");
+        nextY += 8;
+        if (nextY > 247) {
+            nextY -= 237;
+            doc.addPage();
         }
+        doc.setFontType("bold");
+        doc.setFontSize(14);
+        doc.text(32, nextY, "Nama pembeli:");
+        nextY += 7;
+        if (nextY > 247) {
+            nextY -= 237;
+            doc.addPage();
+        }
+        doc.setFontType("normal");
+        doc.text(32, nextY, buyerName);
+        nextY += 7;
+        if (nextY > 247) {
+            nextY -= 237;
+            doc.addPage();
+        }
+        firebase.database().ref("users/"+orderJSON["seller_id"]+"/name").once("value").then(function(snapshot) {
+            var sellerName = snapshot.val();
+            doc.setFontType("bold");
+            doc.text(32, nextY, "Nama penjual:");
+            nextY += 7;
+            if (nextY > 247) {
+                nextY -= 237;
+                doc.addPage();
+            }
+            doc.setFontType("normal");
+            doc.text(32, nextY, sellerName);
+            nextY += 7;
+            if (nextY > 247) {
+                nextY -= 237;
+                doc.addPage();
+            }
+            firebase.database().ref("users/"+orderJSON["driver_id"]+"/name").once("value").then(function(snapshot) {
+                var driverName = snapshot.val();
+                doc.setFontType("bold");
+                doc.text(32, nextY, "Nama pengirim:");
+                nextY += 7;
+                if (nextY > 247) {
+                    nextY -= 237;
+                    doc.addPage();
+                }
+                doc.setFontType("normal");
+                doc.text(32, nextY, driverName);
+                nextY += 7;
+                if (nextY > 247) {
+                    nextY -= 237;
+                    doc.addPage();
+                }
+                doc.setFontType("bold");
+                doc.text(32, nextY, "Biaya:");
+                nextY += 7;
+                if (nextY > 247) {
+                    nextY -= 237;
+                    doc.addPage();
+                }
+                doc.setFontType("normal");
+                doc.text(32, nextY, "Rp"+""+orderJSON["fee"]+",-");
+                nextY += 7;
+                if (nextY > 247) {
+                    nextY -= 237;
+                    doc.addPage();
+                }
+                firebase.database().ref("restaurants/"+orderJSON["restaurant_id"]+"/name").once("value").then(function(snapshot) {
+                    var restaurantName = snapshot.val();
+                    doc.setFontType("bold");
+                    doc.text(32, nextY, "Nama restoran:");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("normal");
+                    doc.text(32, nextY, restaurantName);
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("bold");
+                    doc.text(32, nextY, "Total item:");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("normal");
+                    doc.text(32, nextY, orderJSON["total_items"]+" item");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("bold");
+                    doc.text(32, nextY, "Total harga:");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("normal");
+                    doc.text(32, nextY, "Rp"+""+orderJSON["total_price"]+",-");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    doc.setFontType("bold");
+                    doc.text(32, nextY, "Daftar makanan:");
+                    nextY += 7;
+                    if (nextY > 247) {
+                        nextY -= 237;
+                        doc.addPage();
+                    }
+                    var fd2 = new FormData();
+                    fd2.append("order_id", ""+orderJSON["id"]);
+                    $.ajax({
+                        type: 'POST',
+                        url: PHP_PATH+'get-order-items.php',
+                        data: fd2,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        success: function(response) {
+                            foodsJSON = JSON.parse(response);
+                            foodLooper = 0;
+                            drawFood(doc, user);
+                        }
+                    });
+                });
+            });
+        });
     });
+}
+
+function base64ImageCallback(user, doc, dataURL) {
+    var foodJSON = foodsJSON[foodLooper];
+    foodLooper++;
+    var x = 32;
+    if ((foodLooper%2) == 0) {
+        x = 132;
+    }
+    doc.addImage(dataURL, 'JPEG', x, nextY + 7, 70, 70);
+    doc.text(x, nextY + 84, "Harga: Rp" + foodJSON["price"] + ",-");
+    if ((foodsJSON.length%2) == 0) {
+        if ((foodLooper%2) == 0) {
+            nextY += 94;
+        }
+    } else {
+        nextY += 94;
+    }
+    drawFood(doc, user);
+}
+
+function drawFood(doc, user) {
+    if (foodLooper >= foodsJSON.length) {
+        writeHistory(doc, user);
+    }
+    var foodJSON = foodsJSON[foodLooper];
+    foodLooper++;
+    var x = 32;
+    if ((foodLooper%2) == 0) {
+        x = 132;
+    }
+    foodLooper--;
+    if (foodJSON != null) {
+        doc.setFontType("normal");
+        doc.text(x, nextY, foodJSON["name"]);
+        getBase64Image(foodJSON["img_url"], user, doc, base64ImageCallback);
+    }
 }
 
 function addUser() {

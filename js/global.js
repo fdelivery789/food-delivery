@@ -5,7 +5,7 @@ const HERE_APP_ID = "BqM8uW7Z8qDUrv8ZxlSX";
 const HERE_APP_CODE = "Oey0WMUEYBpTe5qq3mrq5w";
 
 $(document).ready(function() {
-    $.ajax({
+    /*$.ajax({
         type: 'GET',
         url: PHP_PATH+'check-session.php',
         dataType: 'text',
@@ -16,7 +16,7 @@ $(document).ready(function() {
                 window.location.href = "login.html";
             }
         }
-    });
+    });*/
 });
 
 function show(msg) {
@@ -124,4 +124,19 @@ function generateUUID() {
 
 function formatMoney(money) {
     return (money).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
+function getBase64Image(url, user, doc, callback) {
+    var img = new Image;
+    img.onload = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/jpeg");
+        //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        callback(user, doc, dataURL);
+    };
+    img.src = url;
 }
