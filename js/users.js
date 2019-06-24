@@ -1,3 +1,6 @@
+const USER = 1;
+const SELLER = 2;
+const DRIVER = 3;
 var currentMaximumConnections = 1;
 var currentProfilePicture = "";
 var users = [];
@@ -121,9 +124,9 @@ function getUsers() {
             if (user['position'] == 1) {
                 position = "Pelanggan";
             } else if (user['position'] == 2) {
-                position = "Pengantar";
-            } else if (user['position'] == 3) {
                 position = "Penjual";
+            } else if (user['position'] == 3) {
+                position = "Pengantar";
             }
             var name = user["name"];
             if (name == undefined) {
@@ -318,26 +321,68 @@ function setUserClickListener() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var user = users[index];
-        var fd = new FormData();
-        fd.append("user_id", user["id"]);
         show("Mengunduh riwayat pemesanan, mohon tunggu");
-        $.ajax({
-            type: 'POST',
-            url: PHP_PATH + 'get-order-history.php',
-            data: fd,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (response) {
-                var doc = new jsPDF();
-                doc.setFontSize(14);
-                doc.text(32, 25, "Berikut ini riwayat pemesanan oleh pengguna bernama " + user["name"]);
-                nextY = 40;
-                ordersJSON = JSON.parse(response);
-                orderLooper = 0;
-                writeHistory(doc, user);
-            }
-        });
+        if (user["position"] == USER) {
+            var fd = new FormData();
+            fd.append("user_id", user["id"]);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'get-user-history.php',
+                data: fd,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    var doc = new jsPDF();
+                    doc.setFontSize(14);
+                    doc.text(32, 25, "Berikut ini riwayat pemesanan oleh pengguna bernama " + user["name"]);
+                    nextY = 40;
+                    ordersJSON = JSON.parse(response);
+                    orderLooper = 0;
+                    writeHistory(doc, user);
+                }
+            });
+        } else if (user["position"] == SELLER) {
+            var fd2 = new FormData();
+            fd2.append("user_id", user["id"]);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'get-seller-history.php',
+                data: fd2,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    var doc = new jsPDF();
+                    doc.setFontSize(14);
+                    doc.text(32, 25, "Berikut ini riwayat pembelian dari penjual bernama " + user["name"]);
+                    nextY = 40;
+                    ordersJSON = JSON.parse(response);
+                    orderLooper = 0;
+                    writeHistory(doc, user);
+                }
+            });
+        } else if (user["position"] == DRIVER) {
+            var fd3 = new FormData();
+            fd3.append("user_id", user["id"]);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'get-driver-history.php',
+                data: fd3,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    var doc = new jsPDF();
+                    doc.setFontSize(14);
+                    doc.text(32, 25, "Berikut ini riwayat pengantaran dari pengirim bernama " + user["name"]);
+                    nextY = 40;
+                    ordersJSON = JSON.parse(response);
+                    orderLooper = 0;
+                    writeHistory(doc, user);
+                }
+            });
+        }
     });
 }
 
@@ -349,7 +394,7 @@ function writeHistory(doc, user) {
     var orderJSON = ordersJSON[orderLooper];
     orderLooper++;
     console.log("User ID: "+user["id"]);
-    firebase.database().ref("users/"+user["id"]+"/name").once("value").then(function(snapshot) {
+    firebase.database().ref("users/"+orderJSON["buyer_id"]+"/name").once("value").then(function(snapshot) {
         var buyerName = snapshot.val();
         doc.setFontSize(18);
         doc.text(32, nextY, "=============== ORDER "+orderJSON["id"]+" ===============");
