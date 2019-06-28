@@ -3,7 +3,7 @@ include 'db.php';
 $latitude = $_POST["latitude"];
 $longitude = $_POST["longitude"];
 $distance = doubleval($_POST["distance"]);
-$results = $c->query("SELECT *, SQRT(POW(69.1 * (latitude - " . $latitude . "), 2) + POW(69.1 * (" . $longitude . " - longitude) * COS(latitude / 57.3), 2)) AS distance FROM restaurants HAVING distance < 1000 ORDER BY distance;");
+$results = $c->query("SELECT *, SQRT(POW(69.1 * (latitude - " . $latitude . "), 2) + POW(69.1 * (" . $longitude . " - longitude) * COS(latitude / 57.3), 2)) AS distance FROM restaurants HAVING distance < " . $distance . " ORDER BY distance;");
 $restaurants = [];
 if ($results && $results->num_rows > 0) {
 	while ($row = $results->fetch_assoc()) {
