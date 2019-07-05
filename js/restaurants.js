@@ -22,7 +22,7 @@ $(document).ready(function() {
         app_code: HERE_APP_CODE
     });
     mapTypes = platform.createDefaultLayers();*/
-    /*hereMap = $('#edit-restaurant-map').jHERE({
+    hereMap = $('#edit-restaurant-map').jHERE({
         enable: ['behavior'],
         center: [0, 0],
         zoom: 8
@@ -37,7 +37,7 @@ $(document).ready(function() {
             icon: 'http://'+HOST+'/img/map_clicked.png',
             anchor: {x: 15, y: 35}
         });
-    });*/
+    });
     $("#select-email").unbind().on("click", function() {
         if ($("#emails-container").css("display") == "flex") {
             $("#emails-container").css("display", "none");
