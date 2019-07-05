@@ -17,11 +17,11 @@ var selectedLongitude = 0;
 var hereMap;
 
 $(document).ready(function() {
-    /*platform = new H.service.Platform({
+    platform = new H.service.Platform({
         app_id: HERE_APP_ID,
         app_code: HERE_APP_CODE
     });
-    mapTypes = platform.createDefaultLayers();*/
+    mapTypes = platform.createDefaultLayers();
     hereMap = $('#edit-restaurant-map').jHERE({
         enable: ['behavior'],
         center: [0, 0],
