@@ -1,57 +1,131 @@
 var orders;
-var map = null;
 var platform;
-var mapTypes;
+var hereMap;
+var selectedLatitude;
+var selectedLongitude;
+var currentLatitude;
+var currentLongitude;
 
 $(document).ready(function () {
     getOrders();
-    platform = new H.service.Platform({
-        'app_id': HERE_APP_ID,
-        'app_code': HERE_APP_CODE
+    hereMap = $('#map').jHERE({
+        enable: ['behavior'],
+        center: [0, 0],
+        zoom: 8
     });
-    mapTypes = platform.createDefaultLayers();
 });
 
 function getOrders() {
     $("#orders").find("*").remove();
     orders = [];
     showProgress("Memuat daftar pesanan");
-    firebase.database().ref("users").orderByChild("new_order").equalTo(1).once("value").then(function (snapshot) {
-        var i = 1;
-        for (var userID in snapshot.val()) {
-            var user = {};
-            for (var key in snapshot.val()[userID]) {
-                user[key] = snapshot.val()[userID][key];
+    $.ajax({
+        type: 'GET',
+        url: PHP_PATH+'get-orders.php',
+        dataType: 'text',
+        cache: false,
+        success: function(response) {
+            var ordersJSON = JSON.parse(response);
+            for (var i=0; i<ordersJSON.length; i++) {
+                let order = ordersJSON[i];
+                orders.push(order);
+                var userID = order["buyer_id"];
+                var fd = new FormData();
+                fd.append("user_id", userID);
+                $.ajax({
+                    type: 'POST',
+                    url: PHP_PATH+'get-user-info.php',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(response) {
+                        var user = JSON.parse(response);
+                        order["user"] = user;
+                        var sellerID = order["seller_id"];
+                        var fd = new FormData();
+                        fd.append("user_id", sellerID);
+                        $.ajax({
+                            type: 'POST',
+                            url: PHP_PATH+'get-user-info.php',
+                            data: fd,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            success: function(response) {
+                                var seller = JSON.parse(response);
+                                order["seller"] = seller;
+                                var driverID = order["driver_id"];
+                                var fd = new FormData();
+                                fd.append("user_id", driverID);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: PHP_PATH+'get-user-info.php',
+                                    data: fd,
+                                    processData: false,
+                                    contentType: false,
+                                    cache: false,
+                                    success: function(response) {
+                                        var driver = JSON.parse(response);
+                                        order["driver"] = driver;
+                                        var buyerID = orders[0]["buyer_id"];
+                                        var sellerID = orders[0]["seller_id"];
+                                        displayOrder(buyerID, sellerID, user, 0);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
-            const buyerID = user["new_order_buyer_id"];
-            const sellerID = user["new_order_seller_id"];
-            var order = {
-                buyerID: buyerID,
-                sellerID: sellerID,
-                driverID: userID,
-                user: user
-            };
-            orders.push(order);
-            const number = i;
-            firebase.database().ref("users/" + buyerID + "/email").once("value").then(function (snapshot) {
-                var buyerEmail = snapshot.val();
-                firebase.database().ref("users/" + sellerID + "/email").once("value").then(function (snapshot) {
-                    var sellerEmail = snapshot.val();
+            hideProgress();
+        }
+    });
+}
+
+function displayOrder(buyerID, sellerID, user, looper) {
+    if (looper >= orders.length) {
+        hideProgress();
+        return;
+    }
+    var order = orders[looper];
+    var fd = new FormData();
+    fd.append("user_id", buyerID);
+    $.ajax({
+        type: 'POST',
+        url: PHP_PATH + 'get-user-info.php',
+        data: fd,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (response) {
+            var buyerInfo = JSON.parse(response);
+            var buyerEmail = buyerInfo["email"];
+            var fd = new FormData();
+            fd.append("user_id", sellerID);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'get-user-info.php',
+                data: fd,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    var sellerInfo = JSON.parse(response);
+                    var sellerEmail = sellerInfo["email"];
                     $("#orders").append("" +
                         "<tr>" +
-                        "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + number + "</div></td>" +
+                        "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + (looper+1) + "</div></td>" +
                         "<td>" + sellerEmail + " &#8594; " + buyerEmail + "</td>" +
-                        "<td>" + user["new_order_total_items"] + "</td>" +
+                        "<td>" + order["total_items"] + "</td>" +
                         "<td><a class='view-order link'>Lihat</a></td>" +
                         "<td><a class='delete-order link'>Hapus</a></td>" +
                         "</tr>"
                     );
                     setOrderClickListener();
-                });
+                }
             });
-            i++;
         }
-        hideProgress();
     });
 }
 
@@ -60,39 +134,52 @@ function setOrderClickListener() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var order = orders[index];
-        firebase.database().ref("users/" + order["buyerID"] + "/phone").once("value").then(function (snapshot) {
-            var buyerPhone = "-";
-            if (snapshot != null && snapshot.exists()) {
-                buyerPhone = snapshot.val().trim();
-                if (buyerPhone == "") {
-                    buyerPhone = "-";
-                }
+        var fd = new FormData();
+        fd.append("user_id", order["buyer_id"]);
+        $.ajax({
+            type: 'POST',
+            url: PHP_PATH+'get-user-info.php',
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(response) {
+                var buyerInfo = JSON.parse(response);
+                $("#view-order-customer-phone").val(buyerInfo["phone"]);
+                $("#view-order-customer-email").val(buyerInfo["email"]);
             }
-            $("#view-order-customer-phone").val(buyerPhone);
-            firebase.database().ref("users/" + order["sellerID"] + "/phone").once("value").then(function (snapshot) {
-                var sellerPhone = "-";
-                if (snapshot != null && snapshot.exists()) {
-                    sellerPhone = snapshot.val().trim();
-                    if (sellerPhone == "") {
-                        sellerPhone = "-";
-                    }
-                }
-                $("#view-order-seller-phone").val(sellerPhone);
-                firebase.database().ref("users/" + order["driverID"] + "/phone").once("value").then(function (snapshot) {
-                    var driverPhone = "-";
-                    if (snapshot != null && snapshot.exists()) {
-                        driverPhone = snapshot.val().trim();
-                        if (driverPhone == "") {
-                            driverPhone = "-";
-                        }
-                    }
-                    $("#view-order-driver-phone").val(driverPhone);
-                    firebase.database().ref("users/" + order["driverID"] + "/new_order_fee").once("value").then(function (snapshot) {
-                        $("#view-order-fee").val("Rp" + formatMoney(snapshot.val()) + ",-");
-                    });
-                });
-            });
         });
+        fd = new FormData();
+        fd.append("user_id", order["seller_id"]);
+        $.ajax({
+            type: 'POST',
+            url: PHP_PATH+'get-user-info.php',
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(response) {
+                var sellerInfo = JSON.parse(response);
+                $("#view-order-seller-phone").val(sellerInfo["phone"]);
+                $("#view-order-seller-email").val(sellerInfo["email"]);
+            }
+        });
+        fd = new FormData();
+        fd.append("user_id", order["driver_id"]);
+        $.ajax({
+            type: 'POST',
+            url: PHP_PATH+'get-user-info.php',
+            data: fd,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(response) {
+                var driverInfo = JSON.parse(response);
+                $("#view-order-driver-phone").val(driverInfo["phone"]);
+                $("#view-order-driver-email").val(driverInfo["email"]);
+            }
+        });
+        $("#view-order-fee").val("Rp" + formatMoney(parseInt(order["fee"])) + ",-");
         $("#view-order-ok").unbind().on("click", function () {
             $("#view-order-container").fadeOut(300);
         });
@@ -100,19 +187,20 @@ function setOrderClickListener() {
             $("#view-order-container").fadeOut(300);
         });
         $("#view-order-container").css("display", "flex").hide().fadeIn(300);
-        if (map != null) {
-            $("#map-container").remove(map);
-        }
-        var user = order["user"];
-        map = new H.Map(
-            document.getElementById('map'),
-            mapTypes.normal.map, {
-                zoom: 10,
-                center: {lat: user["latitude"], lng: user["longitude"]}
+        var driver = order["driver"];
+        firebase.database().ref("users/"+driver["firebase_user_id"]+"").once("value").then(function(snapshot) {
+            var driver = {};
+            for (var key in snapshot.val()) {
+                driver[key] = snapshot.val()[key];
+            }
+            var latitude = parseFloat(driver["latitude"]);
+            var longitude = parseFloat(driver["longitude"]);
+            hereMap.jHERE("nomarkers");
+            hereMap.jHERE("center", [latitude, longitude]);
+            hereMap.jHERE("marker", [latitude, longitude], {
+                icon: 'http://'+HOST+'/img/map.png'
             });
-        var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
-        var marker = new H.map.Marker({lat: user["latitude"], lng: user["longitude"]}, {icon: icon});
-        map.addObject(marker);
+        });
     });
     $(".delete-order").unbind().on("click", function () {
         var tr = $(this).parent().parent();
@@ -123,12 +211,20 @@ function setOrderClickListener() {
         $("#confirm-ok").unbind().on("click", function () {
             $("#confirm-container").hide();
             showProgress("Menghapus pemesanan");
-            var updates = {};
-            updates["users/" + order["driverID"] + "/new_order"] = 0;
-            updates["users/" + order["sellerID"] + "/new_order_seller_id"] = "";
-            updates["users/" + order["buyerID"] + "/new_order_buyer_id"] = "";
-            firebase.database().ref().update(updates, function () {
-                getOrders();
+            var fd = new FormData();
+            fd.append("id", order["id"]);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH+'delete-order.php',
+                data: fd,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(response) {
+                    show("Pesanan dihapus");
+                    hideProgress();
+                    getOrders();
+                }
             });
         });
         $("#confirm-cancel").unbind().on("click", function () {

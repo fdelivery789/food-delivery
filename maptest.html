@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jhere.js"></script>
+        <meta lang="en">
+        <script>
+            $(document).ready(function() {
+                var map = $('#map').jHERE({
+                    enable: ['behavior'],
+                    center: [40.664167, -73.838611],
+                    zoom: 8,
+                    click: function(event) {
+                        alert("Hello, world");
+                    }
+                }).on("mapclick", function(event) {
+                    console.log("Latitude: "+event.geo.latitude+", longitude: "+event.geo.longitude);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="map" style="width: 500px; height: 500px;"></div>
+    </body>
+</html>

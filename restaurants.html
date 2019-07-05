@@ -2,6 +2,7 @@
 <html>
 <head>
     <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jhere.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-database.js"></script>
     <script>
@@ -17,14 +18,14 @@
         firebase.initializeApp(firebaseConfig);
     </script>
     <script src="js/global.js"></script>
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <!--<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
             type="text/javascript" charset="utf-8"></script>
     <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
             type="text/javascript" charset="utf-8"></script>-->
     <script src="js/restaurants.js"></script>
     <link href="css/global.css" rel="stylesheet">
-    <link href="css/restaurants.css" rel="stylesheet">restaurants
+    <link href="css/restaurants.css" rel="stylesheet">
     <link href="img/icon.png" rel="icon">
     <title>Restoran</title>
 </head>
@@ -69,6 +70,7 @@
                 <th>No.</th>
                 <th>Nama</th>
                 <th>Alamat</th>
+                <th>Makanan</th>
                 <th>Ubah</th>
                 <th>Hapus</th>
             </tr>
@@ -81,21 +83,86 @@
 </div>
 <div id="edit-restaurant-container"
      style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
-    <div id="map-container" style="width: 500px; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+    <div id="map-container"
+         style="width: 500px; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
         <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
             <div id="edit-restaurant-title" style="margin-left: 20px; margin-right: 20px;">Edit Pengguna</div>
         </div>
         <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama:</div>
         <input class="input2" id="edit-restaurant-name" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email:</div>
+        <div id="edit-restaurant-email"
+             style="margin-left: 20px; margin-right: 20px; width: calc(100% - 40px); cursor: pointer;">
+            <div id="select-email" class="input3"
+                 style="width: 100%; position: relative; height: 30px; border-radius: 5px; border: 1px solid #eeeeee;">
+                <div id="selected-email" style="color: #444444; font-size: 15px; margin-left: 10px;">Pilih email</div>
+                <div style="position: absolute; top: 0; right: 0; width: 40px; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <img src="img/triangle.png" width="15px" height="15px" style="">
+                </div>
+            </div>
+            <div id="emails-container"
+                 style="display: none; flex-flow: column nowrap; margin-top: 5px; width: 100%; min-height: 100px; background-color: white; border-radius: 10px; border: 1px solid #888888;">
+                <input id="email" class="input4" style="margin-top: 5px;" placeholder="Ketik email...">
+                <div id="emails" style="width: calc(100% - 10px); margin-top: 10px;"></div>
+            </div>
+        </div>
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Alamat:</div>
         <input class="input2" id="edit-restaurant-address" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Alamat (dari map):</div>
+        <div id="edit-restaurant-map" style="width: 100%; height: 100px;"></div>
         <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
             <button onclick="closeEditRestaurantDialog()" class="button5">Batal</button>
             <button id="edit-restaurant-ok" class="button4" style="margin-left: 5px;">Tambah</button>
         </div>
         <div>&nbsp;</div>
         </input>
+    </div>
+</div>
+<div id="view-foods-container" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
+    <div style="width: 500px; max-height: calc(100% - 60px); border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+        <div style="width: 100%; position: relative; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
+            <div id="view-foods-title" style="margin-left: 20px; margin-right: 20px;">Daftar Makanan</div>
+            <div onclick="closeViewFoodsContainer()" style="position: absolute; top: 0; right: 0; cursor: pointer; width: 30px; height: 100%; display: flex; justify-content: center; align-items: center;">
+                <img src="img/close.png" width="12px" height="12px">
+            </div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
+        <div style="position: relative; width: 100%; min-height: 200px;">
+            <div id="foods" style="position: relative; width: 100%; display: flex; flex-flow: column nowrap;">
+            </div>
+            <div id="no-food-container" style="position: absolute; left: 0; top: 0; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center;">
+                <div style="color: #888888; font-size: 17px;">Tidak ada makanan</div>
+            </div>
+        </div>
+        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px; margin-bottom: 20px;">
+            <button id="view-foods-add-food" class="button5">Tambah Makanan</button>
+            <button id="view-food-ok" class="button4" style="margin-left: 5px;">OK</button>
+        </div>
+    </div>
+</div>
+<div id="add-food-container" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
+    <div style="width: 500px; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
+        <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
+            <div id="add-food-title" style="margin-left: 20px; margin-right: 20px;">Tambah Makanan</div>
+        </div>
+        <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama:</div>
+        <input class="input2" id="add-food-name" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Harga:</div>
+        <input class="input2" id="add-food-price" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Gambar:</div>
+        <input id="select-food-picture" type="file" style="width: 0; height: 0;">
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <img id="add-food-img" src="img/food_placeholder.png" width="200px" height="150px">
+        </div>
+        <div style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
+            <button onclick="changeFoodPicture()" class="button4" style="width: 200px; margin-bottom: 10px;">Ubah Gambar</button>
+        </div>
+        <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px; margin-bottom: 20px;">
+            <button id="add-food-cancel" class="button5">Batal</button>
+            <button id="add-food-add" class="button4" style="margin-left: 5px;">Tambah</button>
+        </div>
     </div>
 </div>
 <div id="confirm-container"

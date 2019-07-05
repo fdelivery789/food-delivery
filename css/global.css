@@ -234,6 +234,52 @@ button::-moz-focus-inner {
     height: 25px;
 }
 
+.input3 {
+    background-image: linear-gradient(#ffffff, #dddddd);
+}
+
+.input3:hover {
+    background-image: linear-gradient(#eeeeee, #ffffff);
+}
+
+.input4 {
+    width: calc(100% - 22px);
+    height: 30px;
+    background-color: white;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    color: black;
+    font-size: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.input4:focus {
+    border: 1px solid #3498db;
+}
+
+.email {
+    background-color: #ffffff;
+    color: black;
+    height: 25px;
+    width: calc(100% - 30px);
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.email:hover {
+    color: white;
+    background-image: linear-gradient(#5f27cd, #341f97);
+}
+
 .select1 {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -258,6 +304,49 @@ button::-moz-focus-inner {
     outline: 0;
     outline: thin dotted \9;
     /* IE6-9 */
+}
+
+.food {
+    padding-left: 8px;
+    padding-right: 8px;
+    width: calc(100% - 36px);
+    color: white;
+    cursor: pointer;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.food:hover {
+    background-image: linear-gradient(#341f97, #5f27cd);
+}
+
+.change-food {
+    height: 30px;
+    background-image: linear-gradient(#ffffff, #dddddd);
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.change-food:hover {
+    background-image: linear-gradient(#eeeeee, #ffffff);
+}
+
+.change-food:focus {
+    background-image: linear-gradient(#aaaaaa, #ffffff);
 }
 
 .menu-item {

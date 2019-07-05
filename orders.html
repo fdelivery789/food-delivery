@@ -2,6 +2,7 @@
 <html>
 <head>
     <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jhere.js"></script>
     <script src="js/global.js"></script>
     <script src="js/orders.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
@@ -77,17 +78,23 @@
 </div>
 <div id="view-order-container"
      style="position: fixed; left: 0; top: 0; border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow: hidden;">
-    <div style="width: 500px; height: 500px; background-color: white; border-top-left-radius: 5px; border-bottom-left-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden;">
+    <div style="width: 500px; height: 500px; background-color: white; border-top-left-radius: 5px; border-bottom-left-radius: 5px; display: flex; flex-flow: column nowrap; overflow: hidden; overflow-y: scroll;">
         <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
             <div id="view-order-title" style="margin-left: 20px; margin-right: 20px;">Lihat Detail Pesanan</div>
         </div>
         <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP pembeli:</div>
         <input class="input2" id="view-order-customer-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email pembeli:</div>
+        <input class="input2" id="view-order-customer-email" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP penjual:</div>
         <input class="input2" id="view-order-seller-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email penjual:</div>
+        <input class="input2" id="view-order-seller-email" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP pengirim:</div>
         <input class="input2" id="view-order-driver-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email pengirim:</div>
+        <input class="input2" id="view-order-driver-email" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Total Biaya:</div>
         <input class="input2" id="view-order-fee" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div>&nbsp;</div>
