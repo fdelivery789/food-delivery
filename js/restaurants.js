@@ -372,7 +372,7 @@ function setFoodClickListener() {
 }
 
 function setMapKeyListener() {
-    /*$("#edit-restaurant-map").val("").on("keyup", function() {
+    $("#edit-restaurant-address").val("").on("keyup", function() {
         var field = this;
         if (timeout !== null) {
             clearTimeout(timeout);
@@ -422,7 +422,7 @@ function setMapKeyListener() {
                 }
             });
         }, 2000);
-    });*/
+    });
 }
 
 function closeEditRestaurantDialog() {
