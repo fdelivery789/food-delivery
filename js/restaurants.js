@@ -14,7 +14,7 @@ var currentRestaurant;
 var foodImgFile = null;
 var selectedLatitude = 0;
 var selectedLongitude = 0;
-var hereMap;
+var hereMap = null;
 
 $(document).ready(function() {
     /*platform = new H.service.Platform({
@@ -22,22 +22,6 @@ $(document).ready(function() {
         app_code: HERE_APP_CODE
     });
     mapTypes = platform.createDefaultLayers();*/
-    hereMap = $('#edit-restaurant-map').jHERE({
-        enable: ['behavior'],
-        center: [0, 0],
-        zoom: 8
-    }).on("mapclick", function(event) {
-        selectedLatitude = event.geo.latitude;
-        selectedLongitude = event.geo.longitude;
-        $("#edit-restaurant-map").jHERE("nomarkers");
-        $("#edit-restaurant-map").jHERE("marker", [currentLatitude, currentLongitude], {
-            icon: 'https://'+HOST+'/img/map.png'
-        });
-        $("#edit-restaurant-map").jHERE("marker", [selectedLatitude, selectedLongitude], {
-            icon: 'https://'+HOST+'/img/map_clicked.png',
-            anchor: {x: 15, y: 35}
-        });
-    });
     $("#select-email").unbind().on("click", function() {
         if ($("#emails-container").css("display") == "flex") {
             $("#emails-container").css("display", "none");
@@ -146,11 +130,29 @@ function setRestaurantClickListener() {
         }
         currentLatitude = latitude;
         currentLongitude = longitude;
-        /*hereMap.jHERE("nomarkers");
+        if (hereMap == null) {
+            hereMap = $('#edit-restaurant-map').jHERE({
+                enable: ['behavior'],
+                center: [0, 0],
+                zoom: 8
+            }).on("mapclick", function(event) {
+                selectedLatitude = event.geo.latitude;
+                selectedLongitude = event.geo.longitude;
+                $("#edit-restaurant-map").jHERE("nomarkers");
+                $("#edit-restaurant-map").jHERE("marker", [currentLatitude, currentLongitude], {
+                    icon: 'https://'+HOST+'/img/map.png'
+                });
+                $("#edit-restaurant-map").jHERE("marker", [selectedLatitude, selectedLongitude], {
+                    icon: 'https://'+HOST+'/img/map_clicked.png',
+                    anchor: {x: 15, y: 35}
+                });
+            });
+        }
+        hereMap.jHERE("nomarkers");
         hereMap.jHERE("center", [latitude, longitude]);
         hereMap.jHERE("marker", [latitude, longitude], {
             icon: 'https://'+HOST+'/img/map.png'
-        });*/
+        });
         $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
         /*if (map != null) {
             $("#map-container").remove(map);
