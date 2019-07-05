@@ -146,11 +146,11 @@ function setRestaurantClickListener() {
         }
         currentLatitude = latitude;
         currentLongitude = longitude;
-        hereMap.jHERE("nomarkers");
+        /*hereMap.jHERE("nomarkers");
         hereMap.jHERE("center", [latitude, longitude]);
         hereMap.jHERE("marker", [latitude, longitude], {
             icon: 'https://'+HOST+'/img/map.png'
-        });
+        });*/
         $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
         /*if (map != null) {
             $("#map-container").remove(map);
