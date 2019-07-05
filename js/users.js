@@ -124,9 +124,9 @@ function getUsers() {
             if (user['position'] == 1) {
                 position = "Pelanggan";
             } else if (user['position'] == 2) {
-                position = "Pengantar";
-            } else if (user['position'] == 3) {
                 position = "Penjual";
+            } else if (user['position'] == 3) {
+                position = "Pengantar";
             }
             var name = user["name"];
             if (name == undefined) {
