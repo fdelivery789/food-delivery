@@ -2,68 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fad0f770-8cad-4345-b3dd-fb30ca8c409c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/maptest.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/php/delete-order.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/php/get-orders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/global.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/global.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/restaurants.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/restaurants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/orders.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/get-user-info.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/get-user-info.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurants.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurants.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/0f252798-2f2d-4861-8551-4ba173cee0fb" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/0f252798-2f2d-4861-8551-4ba173cee0fb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/1b167979-5e52-4ca4-9d21-72fde11ecc70" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/1b167979-5e52-4ca4-9d21-72fde11ecc70" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/30307399-6925-4712-8983-15deb921a697" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/30307399-6925-4712-8983-15deb921a697" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/40af7581-43c7-48c1-9b76-3cd32447dcf4" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/40af7581-43c7-48c1-9b76-3cd32447dcf4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/828dee32-0d09-4c58-b607-b4f5f5e55d7d" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/828dee32-0d09-4c58-b607-b4f5f5e55d7d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/8cfa59e2-7857-4b3a-b13c-602bf48dce0a" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/8cfa59e2-7857-4b3a-b13c-602bf48dce0a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/8f79dcbd-8d7f-4b5a-9bc7-159b556cc82b" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/8f79dcbd-8d7f-4b5a-9bc7-159b556cc82b" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/95101b65-b64f-462b-9397-976dd6ca4407" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/95101b65-b64f-462b-9397-976dd6ca4407" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/9e5e47c5-9349-49bc-a9aa-9ee174b64011" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/9e5e47c5-9349-49bc-a9aa-9ee174b64011" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/adfe9d08-9597-45b1-a522-b446bbf5b8fb" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/adfe9d08-9597-45b1-a522-b446bbf5b8fb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/cd8d488c-9580-4af5-a6a7-5cd8d2f0fb01" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/cd8d488c-9580-4af5-a6a7-5cd8d2f0fb01" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/d0e97d23-569c-4c90-a376-789b6974b43f" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/d0e97d23-569c-4c90-a376-789b6974b43f" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/profile_pictures/Kv7h679Sc2bBJW9TenwE6adjAkh1/profile_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/profile_pictures/Kv7h679Sc2bBJW9TenwE6adjAkh1/profile_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/profile_pictures/VZmQFZMnqZOsWCrnfRsbAUkqPUo1/profile_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/profile_pictures/VZmQFZMnqZOsWCrnfRsbAUkqPUo1/profile_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/profile_pictures/fRkGSV1kMVRjIroqpEDakm59yGy2/profile_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/profile_pictures/fRkGSV1kMVRjIroqpEDakm59yGy2/profile_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/profile_pictures/gM1lrvaZFAfEJAYeIFkXeyJTQYu1/profile_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/profile_pictures/gM1lrvaZFAfEJAYeIFkXeyJTQYu1/profile_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/profile_pictures/vorjFjwKptRx3TsCnY0sMcAW7nn1/profile_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/profile_pictures/vorjFjwKptRx3TsCnY0sMcAW7nn1/profile_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/0c584cac-4aa4-4600-8f30-0db58ec9dca1/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/0c584cac-4aa4-4600-8f30-0db58ec9dca1/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/4709f2c3-56db-4d6c-b422-91daea40f438/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/4709f2c3-56db-4d6c-b422-91daea40f438/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/food1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/food1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/food2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/foods/food2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/38bf068c-ee24-4e35-91a8-4a5cec78f50c/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/foods/food3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/foods/food3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/foods/food4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/foods/food4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/img02.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/48de7e28-394d-4a0f-b113-9c07971adb59/img02.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/617abb68-7e74-4dfa-99a8-28d5086636d5/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/617abb68-7e74-4dfa-99a8-28d5086636d5/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/67c430e7-5c9b-43ef-b8ca-5f787aef3a16/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/67c430e7-5c9b-43ef-b8ca-5f787aef3a16/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/7567c1f3-1edf-4d91-a709-077ce40cae86/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/7567c1f3-1edf-4d91-a709-077ce40cae86/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/7961bb12-7415-4a7a-9562-044f0f172ae1/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/7961bb12-7415-4a7a-9562-044f0f172ae1/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/805fc50d-4d72-40a8-992b-d21e92bcf909/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/805fc50d-4d72-40a8-992b-d21e92bcf909/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/94c7b9e9-7fee-4103-9c30-7c1ceac9f344/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/94c7b9e9-7fee-4103-9c30-7c1ceac9f344/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/9ff62a78-1d06-4b95-95a3-8118ba4cfeb2/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/9ff62a78-1d06-4b95-95a3-8118ba4cfeb2/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/a3778415-4db9-464a-a06d-2a7511ec8793/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/a3778415-4db9-464a-a06d-2a7511ec8793/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/a9a85eef-44c8-4ac5-a312-32bcc41a3f0b/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/a9a85eef-44c8-4ac5-a312-32bcc41a3f0b/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/bdec9505-7f8b-4b4c-9969-4d666fc16445/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/bdec9505-7f8b-4b4c-9969-4d666fc16445/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/foods/food5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/foods/food5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/foods/food6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/foods/food6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/img03.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/be449d67-b370-4a39-a05a-263435536ef6/img03.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/c5982076-71c0-438e-b493-4b5ec1972b18/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/c5982076-71c0-438e-b493-4b5ec1972b18/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/ca21c891-2862-4b77-9c9e-f323475390b8/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/ca21c891-2862-4b77-9c9e-f323475390b8/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/cc1b2744-d2ca-4d98-b05c-b2a5a75fc6e8/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/cc1b2744-d2ca-4d98-b05c-b2a5a75fc6e8/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/foods/food7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/foods/food7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/foods/food8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/foods/food8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/img04.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/de316ee3-e080-48bf-869f-181afbe42fbe/img04.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/foods/food10.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/foods/food10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/foods/food9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/foods/food9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/img05.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/e46ca13c-9ca7-476a-843f-8275dbe511a4/img05.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/e68ccd89-fe19-4e64-b922-38326d466a5e/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/e68ccd89-fe19-4e64-b922-38326d466a5e/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/ea88d62f-47ae-4273-8aaf-3c750e43c112/img01.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/ea88d62f-47ae-4273-8aaf-3c750e43c112/img01.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userdata/images/restaurants/ed9c917b-c6e9-466a-b7ca-01e995f0bd9f/img06.png" beforeDir="false" afterPath="$PROJECT_DIR$/userdata/images/restaurants/ed9c917b-c6e9-466a-b7ca-01e995f0bd9f/img06.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,65 +18,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/orders.js">
+        <entry file="file://$PROJECT_DIR$/js/global.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="81" column="9" lean-forward="true" selection-start-line="81" selection-start-column="9" selection-end-line="81" selection-end-column="9" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/orders.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="106" column="117" selection-start-line="106" selection-start-column="104" selection-end-line="106" selection-end-column="117" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#table#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#7;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#div#4;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#div#4;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state>
+              <caret column="2" selection-start-column="2" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -254,7 +138,6 @@
         <option value="$PROJECT_DIR$/php/get-driver-history.php" />
         <option value="$PROJECT_DIR$/css/global.css" />
         <option value="$PROJECT_DIR$/admins.html" />
-        <option value="$PROJECT_DIR$/js/global.js" />
         <option value="$PROJECT_DIR$/banks.html" />
         <option value="$PROJECT_DIR$/restaurants.html" />
         <option value="$PROJECT_DIR$/maptest.html" />
@@ -265,6 +148,7 @@
         <option value="$PROJECT_DIR$/php/delete-order.php" />
         <option value="$PROJECT_DIR$/orders.html" />
         <option value="$PROJECT_DIR$/js/orders.js" />
+        <option value="$PROJECT_DIR$/js/global.js" />
       </list>
     </option>
   </component>
@@ -285,7 +169,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -312,6 +195,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -424,17 +308,18 @@
       <workItem from="1561949197909" duration="2000" />
       <workItem from="1561949203515" duration="3000" />
       <workItem from="1561949210571" duration="8703000" />
+      <workItem from="1562290205716" duration="26000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="162101000" />
+    <option name="totallyTimeSpent" value="162127000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="1296" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2048" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.208" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -799,13 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/renderer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -939,9 +817,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/orders.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-360">
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/orders.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
+        <state relative-caret-position="1590">
           <caret line="106" column="117" selection-start-line="106" selection-start-column="104" selection-end-line="106" selection-end-column="117" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -964,16 +849,12 @@
             <element signature="n#style#0;n#input#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#4;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#7;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#5;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -989,13 +870,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/orders.js">
+    <entry file="file://$PROJECT_DIR$/js/global.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="81" column="9" lean-forward="true" selection-start-line="81" selection-start-column="9" selection-end-line="81" selection-end-column="9" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
+        <state>
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
