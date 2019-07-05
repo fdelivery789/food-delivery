@@ -12,7 +12,7 @@ function getChannels() {
     $("#channels").find("*").remove();
     $.ajax({
         type: 'GET',
-        url: 'http://iptvjoss.com/jossstreambe/channels.m3u',
+        url: 'https://iptvjoss.com/jossstreambe/channels.m3u',
         dataType: 'text',
         cache: false,
         success: function(a) {
@@ -93,7 +93,7 @@ function setChannelClickListener() {
                             cache: false,
                             success: function (a) {
                                 console.log("File name: " + fileName);
-                                var fileURL = "http://iptvjoss.com/jossstreambe/userdata/imgs/" + fileName;
+                                var fileURL = "https://iptvjoss.com/jossstreambe/userdata/imgs/" + fileName;
                                 channels[index]["logo"] = fileURL;
                                 $("#channels").find("img:eq(" + index + ")").attr("src", fileURL);
                                 m3uData = "#EXTM3U\n";
@@ -264,7 +264,7 @@ function addChannel() {
                     cache: false,
                     success: function(a) {
                         console.log("File name: "+fileName);
-                        var fileURL = "http://iptvjoss.com/jossstreambe/userdata/imgs/"+fileName;
+                        var fileURL = "https://iptvjoss.com/jossstreambe/userdata/imgs/"+fileName;
                         logoURL = fileURL;
                         hideProgress();
                     }

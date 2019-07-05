@@ -198,7 +198,7 @@ function setOrderClickListener() {
             hereMap.jHERE("nomarkers");
             hereMap.jHERE("center", [latitude, longitude]);
             hereMap.jHERE("marker", [latitude, longitude], {
-                icon: 'http://'+HOST+'/img/map.png'
+                icon: 'https://'+HOST+'/img/map.png'
             });
         });
     });
