@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/danaossoftware/jossstreambe",
+  "repository": "http://github.com/danaossoftware/jossstreambe",
   "keywords": [
     "IPTV",
 	"player"

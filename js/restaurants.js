@@ -1,8 +1,6 @@
 var restaurants = [];
 var latestMarker = null;
 var map = null;
-var platform;
-var mapTypes;
 var currentLatitude = 0;
 var currentLongitude = 0;
 var timeout;
@@ -14,14 +12,22 @@ var currentRestaurant;
 var foodImgFile = null;
 var selectedLatitude = 0;
 var selectedLongitude = 0;
-var hereMap = null;
+//var hereMap = null;
+var sources = [];
 
 $(document).ready(function() {
-    /*platform = new H.service.Platform({
-        app_id: HERE_APP_ID,
-        app_code: HERE_APP_CODE
+    map = new ol.Map({
+        target: 'edit-restaurant-map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([0, 0]),
+            zoom: 4
+        })
     });
-    mapTypes = platform.createDefaultLayers();*/
     $("#select-email").unbind().on("click", function() {
         if ($("#emails-container").css("display") == "flex") {
             $("#emails-container").css("display", "none");
@@ -130,7 +136,52 @@ function setRestaurantClickListener() {
         }
         currentLatitude = latitude;
         currentLongitude = longitude;
-        if (hereMap == null) {
+        selectedLatitude = latitude;
+        selectedLongitude = longitude;
+        map.getView().setCenter(ol.proj.fromLonLat([longitude, latitude]));
+        map.on("click", function(evt) {
+            clearMarkers();
+            var coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+            var lng = coord[0];
+            var lat = coord[1];
+            selectedLatitude = lat;
+            selectedLongitude = lng;
+            var vectorLayer = new ol.layer.Vector({
+                source:new ol.source.Vector({
+                    features: [new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
+                    })]
+                }),
+                style: new ol.style.Style({
+                    image: new ol.style.Icon({
+                        anchor: [0.5, 0.5],
+                        anchorXUnits: "fraction",
+                        anchorYUnits: "fraction",
+                        src: "http://"+HOST+"/img/map_clicked.png"
+                    })
+                })
+            });
+            map.addLayer(vectorLayer);
+            sources.push(vectorLayer.getSource());
+        });
+        var vectorLayer = new ol.layer.Vector({
+            source:new ol.source.Vector({
+                features: [new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.transform([parseFloat(longitude), parseFloat(latitude)], 'EPSG:4326', 'EPSG:3857')),
+                })]
+            }),
+            style: new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 0.5],
+                    anchorXUnits: "fraction",
+                    anchorYUnits: "fraction",
+                    src: "http://"+HOST+"/img/map.png"
+                })
+            })
+        });
+        map.addLayer(vectorLayer);
+        sources.push(vectorLayer.getSource());
+        /*if (hereMap == null) {
             hereMap = $('#edit-restaurant-map').jHERE({
                 enable: ['behavior'],
                 center: [0, 0],
@@ -140,10 +191,10 @@ function setRestaurantClickListener() {
                 selectedLongitude = event.geo.longitude;
                 $("#edit-restaurant-map").jHERE("nomarkers");
                 $("#edit-restaurant-map").jHERE("marker", [currentLatitude, currentLongitude], {
-                    icon: 'https://'+HOST+'/img/map.png'
+                    icon: 'http://'+HOST+'/img/map.png'
                 });
                 $("#edit-restaurant-map").jHERE("marker", [selectedLatitude, selectedLongitude], {
-                    icon: 'https://'+HOST+'/img/map_clicked.png',
+                    icon: 'http://'+HOST+'/img/map_clicked.png',
                     anchor: {x: 15, y: 35}
                 });
             });
@@ -151,8 +202,8 @@ function setRestaurantClickListener() {
         hereMap.jHERE("nomarkers");
         hereMap.jHERE("center", [latitude, longitude]);
         hereMap.jHERE("marker", [latitude, longitude], {
-            icon: 'https://'+HOST+'/img/map.png'
-        });
+            icon: 'http://'+HOST+'/img/map.png'
+        });*/
         $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
         /*if (map != null) {
             $("#map-container").remove(map);
@@ -161,7 +212,7 @@ function setRestaurantClickListener() {
             zoom: 10,
             center: {lat: restaurant["latitude"], lng: restaurant["longitude"]}
         });
-        var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
+        var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
         latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
         map.addObject(latestMarker);*/
         timeout = null;
@@ -183,6 +234,7 @@ function setRestaurantClickListener() {
             updates["restaurants/"+restaurant["id"]+"/address"] = address;
             updates["restaurants/"+restaurant["id"]+"/latitude"] = selectedLatitude;
             updates["restaurants/"+restaurant["id"]+"/longitude"] = selectedLongitude;
+            clearMarkers();
             firebase.database().ref().update(updates, function(error) {
                 $("#edit-restaurant-container").fadeOut(300);
                 getRestaurants();
@@ -208,88 +260,99 @@ function setRestaurantClickListener() {
         $("#confirm-container").css("display", "flex").hide().fadeIn(300);
     });
     $(".view-foods").unbind().on("click", function() {
-        foods = [];
-        $("#foods").find("*").remove();
-        var index = $(this).parent().children().index(this);
-        var restaurant = restaurants[index];
-        currentRestaurant = restaurant;
-        var restaurantID = restaurant["id"];
-        showProgress("Memuat daftar makanan");
-        firebase.database().ref("restaurants/"+restaurantID+"/foods").once("value").then(function(snapshot) {
-            for (var foodID in snapshot.val()) {
-                let food = {};
-                for (var key in snapshot.val()[foodID]) {
-                    food[key] = snapshot.val()[foodID][key];
-                }
-                food["id"] = foodID;
-                foods.push(food);
-                let imgURL = food["img"];
-                console.log("Image URL: "+imgURL);
-                $.ajax({
-                    url: imgURL,
-                    type: 'HEAD',
-                    error: function() {
-                        console.log("Image not exists");
-                        imgURL = "https://"+HOST+"/img/food_placeholder.png";
-                        $("#foods").append(""+
-                            "<div class='food' style='margin-top: 3px; margin-bottom: 3px; position: relative; display: flex; flex-flow: row nowrap; align-items: center;'>" +
-                            "<img src='"+imgURL+"' width='40px' height='40px' style='margin-left: 10px;'>"+
-                            "<div style='display: flex; flex-flow: column nowrap; margin-left: 10px;'>" +
-                            "<div class='food-name' style='color: black; font-size: 15px;'><b>"+food["name"]+"</b></div>"+
-                            "<div class='food-price' style='color: black; font-size: 12px; margin-top: -8px;'>Rp "+formatMoney(parseInt(food["price"]))+",-</div>"+
-                            "</div>"+
-                            "<div style='position: absolute; top: 0; right: 0; height: 100%; display: flex; justify-content: center; align-items: center; margin-right: 10px;'>" +
-                            "<div class='change-food' style='color: black;'>Ubah</div>"+
-                            "</div>"+
-                            "</div>");
-                    },
-                    success: function() {
-                        console.log("Image exists: "+imgURL);
-                        $("#foods").append(""+
-                            "<div class='food' style='margin-top: 3px; margin-bottom: 3px; position: relative; display: flex; flex-flow: row nowrap; align-items: center;'>" +
-                            "<img src='"+imgURL+"' width='40px' height='40px' style='margin-left: 10px;'>"+
-                            "<div style='display: flex; flex-flow: column nowrap; margin-left: 10px;'>" +
-                            "<div class='food-name' style='color: black; font-size: 15px;'><b>"+food["name"]+"</b></div>"+
-                            "<div class='food-price' style='color: black; font-size: 12px; margin-top: -8px;'>Rp "+formatMoney(parseInt(food["price"]))+",-</div>"+
-                            "</div>"+
-                            "<div style='position: absolute; top: 0; right: 0; height: 100%; display: flex; justify-content: center; align-items: center; margin-right: 10px;'>" +
-                            "<div class='change-food' style='color: black;'>Ubah</div>"+
-                            "</div>"+
-                            "</div>");
-                    }
-                });
-            }
-            if (foods.length == 0) {
-                $("#foods").css("display", "none");
-                $("#no-food-container").css("display", "flex");
-            } else {
-                $("#foods").css("display", "flex");
-                $("#no-food-container").css("display", "none");
-            }
-            $("#view-foods-container").css("display", "flex").hide().fadeIn(300);
-            $("#view-foods-add-food").unbind().on("click", function() {
-                addFood();
-            });
-            $("#view-food-ok").unbind().on("click", function() {
-                $("#view-foods-container").fadeOut(300);
-            });
-            setFoodClickListener();
-            hideProgress();
-        });
+        var td = $(this).parent();
+        var tr = td.parent();
+        var index = $("#restaurants").children().index(tr);
+        currentRestaurant = restaurants[index];
+        getFoods();
     });
+}
+
+function getFoods() {
+    foods = [];
+    $("#foods").find("*").remove();
+    var restaurant = currentRestaurant;
+    var restaurantID = restaurant["id"];
+    showProgress("Memuat daftar makanan");
+    firebase.database().ref("restaurants/"+restaurantID+"/foods").once("value").then(function(snapshot) {
+        for (var foodID in snapshot.val()) {
+            let food = {};
+            for (var key in snapshot.val()[foodID]) {
+                food[key] = snapshot.val()[foodID][key];
+            }
+            food["id"] = foodID;
+            foods.push(food);
+            let imgURL = food["img"];
+            $.ajax({
+                url: imgURL,
+                type: 'HEAD',
+                error: function() {
+                    imgURL = "http://"+HOST+"/img/food_placeholder.png";
+                    $("#foods").append(""+
+                        "<div class='food' style='margin-top: 3px; margin-bottom: 3px; position: relative; display: flex; flex-flow: row nowrap; align-items: center;'>" +
+                        "<img src='"+imgURL+"' width='40px' height='40px' style='margin-left: 10px;'>"+
+                        "<div style='display: flex; flex-flow: column nowrap; margin-left: 10px;'>" +
+                        "<div class='food-name' style='color: black; font-size: 15px;'><b>"+food["name"]+"</b></div>"+
+                        "<div class='food-price' style='color: black; font-size: 12px; margin-top: -8px;'>Rp "+formatMoney(parseInt(food["price"]))+",-</div>"+
+                        "</div>"+
+                        "<div style='position: absolute; top: 0; right: 0; height: 100%; display: flex; justify-content: center; align-items: center; margin-right: 10px;'>" +
+                        "<div class='change-food' style='color: black;'>Ubah</div>"+
+                        "</div>"+
+                        "</div>");
+                    setChangeFoodClickListener();
+                },
+                success: function() {
+                    $("#foods").append(""+
+                        "<div class='food' style='margin-top: 3px; margin-bottom: 3px; position: relative; display: flex; flex-flow: row nowrap; align-items: center;'>" +
+                        "<img src='"+imgURL+"' width='40px' height='40px' style='margin-left: 10px;'>"+
+                        "<div style='display: flex; flex-flow: column nowrap; margin-left: 10px;'>" +
+                        "<div class='food-name' style='color: black; font-size: 15px;'><b>"+food["name"]+"</b></div>"+
+                        "<div class='food-price' style='color: black; font-size: 12px; margin-top: -8px;'>Rp "+formatMoney(parseInt(food["price"]))+",-</div>"+
+                        "</div>"+
+                        "<div style='position: absolute; top: 0; right: 0; height: 100%; display: flex; justify-content: center; align-items: center; margin-right: 10px;'>" +
+                        "<div class='change-food' style='color: black;'>Ubah</div>"+
+                        "</div>"+
+                        "</div>");
+                    setChangeFoodClickListener();
+                }
+            });
+        }
+        if (foods.length == 0) {
+            $("#foods").css("display", "none");
+            $("#no-food-container").css("display", "flex");
+        } else {
+            $("#foods").css("display", "flex");
+            $("#no-food-container").css("display", "none");
+        }
+        $("#view-foods-container").css("display", "flex").hide().fadeIn(300);
+        $("#view-foods-add-food").unbind().on("click", function() {
+            addFood();
+        });
+        $("#view-food-ok").unbind().on("click", function() {
+            $("#view-foods-container").fadeOut(300);
+        });
+        setFoodClickListener();
+        hideProgress();
+    });
+}
+
+function clearMarkers() {
+    for (var i=0; i<sources.length; i++) {
+        sources[i].clear();
+    }
 }
 
 function addFood() {
     $("#add-food-title").html("Tambah Makanan");
     $("#add-food-name").val("");
     $("#add-food-price").val("");
-    $("#add-food-img").attr("src", "https://"+HOST+"/img/food_placeholder.png");
+    $("#add-food-img").attr("src", "http://"+HOST+"/img/food_placeholder.png");
     $("#add-food-container").css("display", "flex").hide().fadeIn(300);
     $("#add-food-cancel").unbind().on("click", function() {
         $("#add-food-container").fadeOut(300);
     });
     foodImgFile = null;
-    $("#add-food-add").unbind().on("click", function() {
+    $("#add-food-add").html("Tambah").unbind().on("click", function() {
         var name = $("#add-food-name").val().trim();
         var priceText = $("#add-food-price").val().trim();
         if (name == "") {
@@ -323,11 +386,11 @@ function addFood() {
                     firebase.database().ref("restaurants/"+currentRestaurant["id"]+"/foods/"+foodID).set({
                         name: name,
                         price: price,
-                        img: 'https://'+HOST+'/userdata/images/'+imgFileName
+                        img: 'http://'+HOST+'/userdata/images/'+imgFileName
                     }, function() {
                         hideProgress();
                         $("#add-food-container").fadeOut(300);
-                        addFoodToList(name, price, 'https://'+HOST+'/userdata/images/'+imgFileName);
+                        addFoodToList(name, price, 'http://'+HOST+'/userdata/images/'+imgFileName);
                     });
                 }
             });
@@ -339,7 +402,7 @@ function addFood() {
             }, function() {
                 hideProgress();
                 $("#add-food-container").fadeOut(300);
-                addFoodToList(name, price, 'https://'+HOST+'/img/food_placeholder.png');
+                addFoodToList(name, price, 'http://'+HOST+'/img/food_placeholder.png');
             });
         }
     });
@@ -357,6 +420,73 @@ function addFoodToList(name, price, imgURL) {
         "<div class='change-food' style='color: black;'>Ubah</div>"+
         "</div>"+
         "</div>");
+    setChangeFoodClickListener();
+}
+
+function setChangeFoodClickListener() {
+    $(".change-food").unbind().on("click", function() {
+        var div = $(this).parent().parent();
+        var index = $("#foods").children().index(div);
+        var food = foods[index];
+        $("#add-food-name").val(food["name"]);
+        $("#add-food-price").val(food["price"]);
+        $("#add-food-img").attr("src", food["img"]);
+        $("#add-food-add").html("Simpan").unbind().on("click", function() {
+            var name = $("#add-food-name").val().trim();
+            var priceText = $("#add-food-price").val().trim();
+            if (name == "") {
+                show("Mohon masukkan nama");
+                return;
+            }
+            if (priceText == "") {
+                show("Mohon masukkan harga");
+                return;
+            }
+            var price = parseInt(priceText);
+            showProgress("Menyimpan info makanan");
+            if (foodImgFile != null) {
+                let imgFileName = generateUUID()+".jpg";
+                let fd = new FormData();
+                fd.append("file", foodImgFile);
+                fd.append("file_name", imgFileName);
+                console.log("Uploading image... "+imgFileName);
+                $.ajax({
+                    type: 'POST',
+                    url: PHP_PATH+'upload-image.php',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(response) {
+                        console.log("Uploaded image: "+imgFileName);
+                        var updates = {};
+                        updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/name"] = name;
+                        updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/price"] = price;
+                        updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/img"] = 'http://'+HOST+'/userdata/images/'+imgFileName;
+                        firebase.database().ref().update(updates, function(error) {
+                            hideProgress();
+                            $("#add-food-container").fadeOut(300);
+                            getFoods();
+                        });
+                    }
+                });
+            } else {
+                firebase.database().ref("restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]).set({
+                    name: name,
+                    price: price,
+                    img: ''
+                }, function() {
+                    hideProgress();
+                    $("#add-food-container").fadeOut(300);
+                    getFoods();
+                });
+            }
+        });
+        $("#add-food-cancel").unbind().on("click", function() {
+            $("#add-food-container").fadeOut(300);
+        });
+        $("#add-food-container").css("display", "flex").hide().fadeIn(300);
+    });
 }
 
 function setFoodClickListener() {
@@ -374,7 +504,7 @@ function setFoodClickListener() {
 }
 
 function setMapKeyListener() {
-    $("#edit-restaurant-address").val("").on("keyup", function() {
+    $("#edit-restaurant-address").on("keyup", function() {
         var field = this;
         if (timeout !== null) {
             clearTimeout(timeout);
@@ -384,7 +514,7 @@ function setMapKeyListener() {
             console.log("Searching for location: "+value);
             $.ajax({
                 type: 'GET',
-                url: "https://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
+                url: "http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
                 dataType: 'text',
                 cache: false,
                 success: function(response) {
@@ -397,7 +527,7 @@ function setMapKeyListener() {
                         console.log("Location ID: "+locationId);
                         $.ajax({
                             type: 'GET',
-                            url: 'https://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
+                            url: 'http://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
                             dataType: 'text',
                             cache: false,
                             success: function(response) {
@@ -413,11 +543,29 @@ function setMapKeyListener() {
                                 var longitude = displayPosition["longitude"];
                                 currentLatitude = latitude;
                                 currentLongitude = longitude;
-                                map.removeObject(latestMarker);
-                                var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
+                                /*map.removeObject(latestMarker);
+                                var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
                                 latestMarker = new H.map.Marker({lat: latitude, lng: longitude}, {icon: icon});
                                 map.addObject(latestMarker);
-                                map.setCenter({lat: latitude, lng: longitude});
+                                map.setCenter({lat: latitude, lng: longitude});*/
+                                clearMarkers();
+                                var vectorLayer = new ol.layer.Vector({
+                                    source:new ol.source.Vector({
+                                        features: [new ol.Feature({
+                                            geometry: new ol.geom.Point(ol.proj.transform([parseFloat(longitude), parseFloat(latitude)], 'EPSG:4326', 'EPSG:3857')),
+                                        })]
+                                    }),
+                                    style: new ol.style.Style({
+                                        image: new ol.style.Icon({
+                                            anchor: [0.5, 0.5],
+                                            anchorXUnits: "fraction",
+                                            anchorYUnits: "fraction",
+                                            src: "http://"+HOST+"/img/map_clicked.png"
+                                        })
+                                    })
+                                });
+                                map.addLayer(vectorLayer);
+                                sources.push(vectorLayer.getSource());
                             }
                         });
                     }
@@ -444,7 +592,7 @@ function addRestaurant() {
         zoom: 10,
         center: {lat: -6.229728, lng: 106.6894287}
     });
-    var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
+    var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
     latestMarker = new H.map.Marker({lat: -6.229728, lng: 106.6894287}, {icon: icon});
     map.addObject(latestMarker);*/
     timeout = null;
