@@ -21,64 +21,64 @@ function getOrders() {
     showProgress("Memuat daftar pesanan");
     $.ajax({
         type: 'GET',
-        url: PHP_PATH+'get-orders.php',
+        url: PHP_PATH + 'get-orders.php',
         dataType: 'text',
         cache: false,
-        success: function(response) {
+        success: function (response) {
             var ordersJSON = JSON.parse(response);
-            for (var i=0; i<ordersJSON.length; i++) {
+            for (var i = 0; i < ordersJSON.length; i++) {
                 let order = ordersJSON[i];
                 orders.push(order);
-                var userID = order["buyer_id"];
-                var fd = new FormData();
-                fd.append("user_id", userID);
-                $.ajax({
-                    type: 'POST',
-                    url: PHP_PATH+'get-user-info.php',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    success: function(response) {
-                        var user = JSON.parse(response);
-                        order["user"] = user;
-                        var sellerID = order["seller_id"];
-                        var fd = new FormData();
-                        fd.append("user_id", sellerID);
-                        $.ajax({
-                            type: 'POST',
-                            url: PHP_PATH+'get-user-info.php',
-                            data: fd,
-                            processData: false,
-                            contentType: false,
-                            cache: false,
-                            success: function(response) {
-                                var seller = JSON.parse(response);
-                                order["seller"] = seller;
-                                var driverID = order["driver_id"];
-                                var fd = new FormData();
-                                fd.append("user_id", driverID);
-                                $.ajax({
-                                    type: 'POST',
-                                    url: PHP_PATH+'get-user-info.php',
-                                    data: fd,
-                                    processData: false,
-                                    contentType: false,
-                                    cache: false,
-                                    success: function(response) {
-                                        var driver = JSON.parse(response);
-                                        order["driver"] = driver;
-                                        var buyerID = orders[0]["buyer_id"];
-                                        var sellerID = orders[0]["seller_id"];
-                                        displayOrder(buyerID, sellerID, user, 0);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
             }
-            hideProgress();
+            let order = orders[0];
+            var userID = order["buyer_id"];
+            var fd = new FormData();
+            fd.append("user_id", userID);
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'get-user-info.php',
+                data: fd,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    var user = JSON.parse(response);
+                    order["user"] = user;
+                    var sellerID = order["seller_id"];
+                    var fd = new FormData();
+                    fd.append("user_id", sellerID);
+                    $.ajax({
+                        type: 'POST',
+                        url: PHP_PATH + 'get-user-info.php',
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        success: function (response) {
+                            var seller = JSON.parse(response);
+                            order["seller"] = seller;
+                            var driverID = order["driver_id"];
+                            var fd = new FormData();
+                            fd.append("user_id", driverID);
+                            $.ajax({
+                                type: 'POST',
+                                url: PHP_PATH + 'get-user-info.php',
+                                data: fd,
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (response) {
+                                    var driver = JSON.parse(response);
+                                    order["driver"] = driver;
+                                    var buyerID = orders[0]["buyer_id"];
+                                    var sellerID = orders[0]["seller_id"];
+                                    displayOrder(buyerID, sellerID, user, 0);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 }
@@ -115,7 +115,7 @@ function displayOrder(buyerID, sellerID, user, looper) {
                     var sellerEmail = sellerInfo["email"];
                     $("#orders").append("" +
                         "<tr>" +
-                        "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + (looper+1) + "</div></td>" +
+                        "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + (looper + 1) + "</div></td>" +
                         "<td>" + sellerEmail + " &#8594; " + buyerEmail + "</td>" +
                         "<td>" + order["total_items"] + "</td>" +
                         "<td><a class='view-order link'>Lihat</a></td>" +
@@ -123,6 +123,7 @@ function displayOrder(buyerID, sellerID, user, looper) {
                         "</tr>"
                     );
                     setOrderClickListener();
+                    displayOrder(buyerID, sellerID, user, looper+1);
                 }
             });
         }
@@ -138,12 +139,12 @@ function setOrderClickListener() {
         fd.append("user_id", order["buyer_id"]);
         $.ajax({
             type: 'POST',
-            url: PHP_PATH+'get-user-info.php',
+            url: PHP_PATH + 'get-user-info.php',
             data: fd,
             processData: false,
             contentType: false,
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 var buyerInfo = JSON.parse(response);
                 $("#view-order-customer-phone").val(buyerInfo["phone"]);
                 $("#view-order-customer-email").val(buyerInfo["email"]);
@@ -153,12 +154,12 @@ function setOrderClickListener() {
         fd.append("user_id", order["seller_id"]);
         $.ajax({
             type: 'POST',
-            url: PHP_PATH+'get-user-info.php',
+            url: PHP_PATH + 'get-user-info.php',
             data: fd,
             processData: false,
             contentType: false,
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 var sellerInfo = JSON.parse(response);
                 $("#view-order-seller-phone").val(sellerInfo["phone"]);
                 $("#view-order-seller-email").val(sellerInfo["email"]);
@@ -168,12 +169,12 @@ function setOrderClickListener() {
         fd.append("user_id", order["driver_id"]);
         $.ajax({
             type: 'POST',
-            url: PHP_PATH+'get-user-info.php',
+            url: PHP_PATH + 'get-user-info.php',
             data: fd,
             processData: false,
             contentType: false,
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 var driverInfo = JSON.parse(response);
                 $("#view-order-driver-phone").val(driverInfo["phone"]);
                 $("#view-order-driver-email").val(driverInfo["email"]);
@@ -183,12 +184,12 @@ function setOrderClickListener() {
         $("#view-order-ok").unbind().on("click", function () {
             $("#view-order-container").fadeOut(300);
         });
-        $("#view-order-cancel").unbind().on("click", function() {
+        $("#view-order-cancel").unbind().on("click", function () {
             $("#view-order-container").fadeOut(300);
         });
         $("#view-order-container").css("display", "flex").hide().fadeIn(300);
         var driver = order["driver"];
-        firebase.database().ref("users/"+driver["firebase_user_id"]+"").once("value").then(function(snapshot) {
+        firebase.database().ref("users/" + driver["firebase_user_id"] + "").once("value").then(function (snapshot) {
             var driver = {};
             for (var key in snapshot.val()) {
                 driver[key] = snapshot.val()[key];
@@ -198,7 +199,7 @@ function setOrderClickListener() {
             hereMap.jHERE("nomarkers");
             hereMap.jHERE("center", [latitude, longitude]);
             hereMap.jHERE("marker", [latitude, longitude], {
-                icon: 'http://'+HOST+'/img/map.png'
+                icon: 'http://' + HOST + '/img/map.png'
             });
         });
     });
@@ -215,12 +216,12 @@ function setOrderClickListener() {
             fd.append("id", order["id"]);
             $.ajax({
                 type: 'POST',
-                url: PHP_PATH+'delete-order.php',
+                url: PHP_PATH + 'delete-order.php',
                 data: fd,
                 processData: false,
                 contentType: false,
                 cache: false,
-                success: function(response) {
+                success: function (response) {
                     show("Pesanan dihapus");
                     hideProgress();
                     getOrders();

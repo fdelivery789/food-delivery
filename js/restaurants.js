@@ -543,6 +543,8 @@ function setMapKeyListener() {
                                 var longitude = displayPosition["longitude"];
                                 currentLatitude = latitude;
                                 currentLongitude = longitude;
+                                selectedLatitude = latitude;
+                                selectedLongitude = longitude;
                                 /*map.removeObject(latestMarker);
                                 var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
                                 latestMarker = new H.map.Marker({lat: latitude, lng: longitude}, {icon: icon});
@@ -566,6 +568,8 @@ function setMapKeyListener() {
                                 });
                                 map.addLayer(vectorLayer);
                                 sources.push(vectorLayer.getSource());
+                                map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
+                                map.getView().setZoom(5);
                             }
                         });
                     }
