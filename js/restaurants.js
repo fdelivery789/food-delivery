@@ -157,7 +157,7 @@ function setRestaurantClickListener() {
                         anchor: [0.5, 0.5],
                         anchorXUnits: "fraction",
                         anchorYUnits: "fraction",
-                        src: "http://"+HOST+"/img/map_clicked.png"
+                        src: "https://"+HOST+"/img/map_clicked.png"
                     })
                 })
             });
@@ -175,7 +175,7 @@ function setRestaurantClickListener() {
                     anchor: [0.5, 0.5],
                     anchorXUnits: "fraction",
                     anchorYUnits: "fraction",
-                    src: "http://"+HOST+"/img/map.png"
+                    src: "https://"+HOST+"/img/map.png"
                 })
             })
         });
@@ -191,10 +191,10 @@ function setRestaurantClickListener() {
                 selectedLongitude = event.geo.longitude;
                 $("#edit-restaurant-map").jHERE("nomarkers");
                 $("#edit-restaurant-map").jHERE("marker", [currentLatitude, currentLongitude], {
-                    icon: 'http://'+HOST+'/img/map.png'
+                    icon: 'https://'+HOST+'/img/map.png'
                 });
                 $("#edit-restaurant-map").jHERE("marker", [selectedLatitude, selectedLongitude], {
-                    icon: 'http://'+HOST+'/img/map_clicked.png',
+                    icon: 'https://'+HOST+'/img/map_clicked.png',
                     anchor: {x: 15, y: 35}
                 });
             });
@@ -202,7 +202,7 @@ function setRestaurantClickListener() {
         hereMap.jHERE("nomarkers");
         hereMap.jHERE("center", [latitude, longitude]);
         hereMap.jHERE("marker", [latitude, longitude], {
-            icon: 'http://'+HOST+'/img/map.png'
+            icon: 'https://'+HOST+'/img/map.png'
         });*/
         $("#edit-restaurant-container").css("display", "flex").hide().fadeIn(300);
         /*if (map != null) {
@@ -212,7 +212,7 @@ function setRestaurantClickListener() {
             zoom: 10,
             center: {lat: restaurant["latitude"], lng: restaurant["longitude"]}
         });
-        var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
+        var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
         latestMarker = new H.map.Marker({lat: restaurant["latitude"], lng: restaurant["longitude"]}, {icon: icon});
         map.addObject(latestMarker);*/
         timeout = null;
@@ -287,7 +287,7 @@ function getFoods() {
                 url: imgURL,
                 type: 'HEAD',
                 error: function() {
-                    imgURL = "http://"+HOST+"/img/food_placeholder.png";
+                    imgURL = "https://"+HOST+"/img/food_placeholder.png";
                     $("#foods").append(""+
                         "<div class='food' style='margin-top: 3px; margin-bottom: 3px; position: relative; display: flex; flex-flow: row nowrap; align-items: center;'>" +
                         "<img src='"+imgURL+"' width='40px' height='40px' style='margin-left: 10px;'>"+
@@ -346,7 +346,7 @@ function addFood() {
     $("#add-food-title").html("Tambah Makanan");
     $("#add-food-name").val("");
     $("#add-food-price").val("");
-    $("#add-food-img").attr("src", "http://"+HOST+"/img/food_placeholder.png");
+    $("#add-food-img").attr("src", "https://"+HOST+"/img/food_placeholder.png");
     $("#add-food-container").css("display", "flex").hide().fadeIn(300);
     $("#add-food-cancel").unbind().on("click", function() {
         $("#add-food-container").fadeOut(300);
@@ -386,11 +386,11 @@ function addFood() {
                     firebase.database().ref("restaurants/"+currentRestaurant["id"]+"/foods/"+foodID).set({
                         name: name,
                         price: price,
-                        img: 'http://'+HOST+'/userdata/images/'+imgFileName
+                        img: 'https://'+HOST+'/userdata/images/'+imgFileName
                     }, function() {
                         hideProgress();
                         $("#add-food-container").fadeOut(300);
-                        addFoodToList(name, price, 'http://'+HOST+'/userdata/images/'+imgFileName);
+                        addFoodToList(name, price, 'https://'+HOST+'/userdata/images/'+imgFileName);
                     });
                 }
             });
@@ -402,7 +402,7 @@ function addFood() {
             }, function() {
                 hideProgress();
                 $("#add-food-container").fadeOut(300);
-                addFoodToList(name, price, 'http://'+HOST+'/img/food_placeholder.png');
+                addFoodToList(name, price, 'https://'+HOST+'/img/food_placeholder.png');
             });
         }
     });
@@ -462,7 +462,7 @@ function setChangeFoodClickListener() {
                         var updates = {};
                         updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/name"] = name;
                         updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/price"] = price;
-                        updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/img"] = 'http://'+HOST+'/userdata/images/'+imgFileName;
+                        updates["restaurants/"+currentRestaurant["id"]+"/foods/"+food["id"]+"/img"] = 'https://'+HOST+'/userdata/images/'+imgFileName;
                         firebase.database().ref().update(updates, function(error) {
                             hideProgress();
                             $("#add-food-container").fadeOut(300);
@@ -514,7 +514,7 @@ function setMapKeyListener() {
             console.log("Searching for location: "+value);
             $.ajax({
                 type: 'GET',
-                url: "http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
+                url: "https://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id="+HERE_APP_ID+"&app_code="+HERE_APP_CODE+"&query="+value,
                 dataType: 'text',
                 cache: false,
                 success: function(response) {
@@ -527,7 +527,7 @@ function setMapKeyListener() {
                         console.log("Location ID: "+locationId);
                         $.ajax({
                             type: 'GET',
-                            url: 'http://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
+                            url: 'https://geocoder.api.here.com/6.2/geocode.json?locationid='+locationId+'&jsonattributes=1&gen=9&app_id='+HERE_APP_ID+'&app_code='+HERE_APP_CODE,
                             dataType: 'text',
                             cache: false,
                             success: function(response) {
@@ -546,7 +546,7 @@ function setMapKeyListener() {
                                 selectedLatitude = latitude;
                                 selectedLongitude = longitude;
                                 /*map.removeObject(latestMarker);
-                                var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
+                                var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
                                 latestMarker = new H.map.Marker({lat: latitude, lng: longitude}, {icon: icon});
                                 map.addObject(latestMarker);
                                 map.setCenter({lat: latitude, lng: longitude});*/
@@ -562,7 +562,7 @@ function setMapKeyListener() {
                                             anchor: [0.5, 0.5],
                                             anchorXUnits: "fraction",
                                             anchorYUnits: "fraction",
-                                            src: "http://"+HOST+"/img/map_clicked.png"
+                                            src: "https://"+HOST+"/img/map_clicked.png"
                                         })
                                     })
                                 });
@@ -596,7 +596,7 @@ function addRestaurant() {
         zoom: 10,
         center: {lat: -6.229728, lng: 106.6894287}
     });
-    var icon = new H.map.Icon("http://fdelivery.xyz/img/map.png");
+    var icon = new H.map.Icon("https://fdelivery.xyz/img/map.png");
     latestMarker = new H.map.Marker({lat: -6.229728, lng: 106.6894287}, {icon: icon});
     map.addObject(latestMarker);*/
     timeout = null;

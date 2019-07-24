@@ -70,9 +70,7 @@ function getOrders() {
                                 success: function (response) {
                                     var driver = JSON.parse(response);
                                     order["driver"] = driver;
-                                    var buyerID = orders[0]["buyer_id"];
-                                    var sellerID = orders[0]["seller_id"];
-                                    displayOrder(buyerID, sellerID, user, 0);
+                                    displayOrder(user, 0);
                                 }
                             });
                         }
@@ -83,14 +81,14 @@ function getOrders() {
     });
 }
 
-function displayOrder(buyerID, sellerID, user, looper) {
+function displayOrder(user, looper) {
     if (looper >= orders.length) {
         hideProgress();
         return;
     }
     var order = orders[looper];
     var fd = new FormData();
-    fd.append("user_id", buyerID);
+    fd.append("user_id", order["buyer_id"]);
     $.ajax({
         type: 'POST',
         url: PHP_PATH + 'get-user-info.php',
@@ -102,7 +100,7 @@ function displayOrder(buyerID, sellerID, user, looper) {
             var buyerInfo = JSON.parse(response);
             var buyerEmail = buyerInfo["email"];
             var fd = new FormData();
-            fd.append("user_id", sellerID);
+            fd.append("user_id", order["seller_id"]);
             $.ajax({
                 type: 'POST',
                 url: PHP_PATH + 'get-user-info.php',
@@ -116,14 +114,14 @@ function displayOrder(buyerID, sellerID, user, looper) {
                     $("#orders").append("" +
                         "<tr>" +
                         "<td><div style='background-color: #2f2e4d; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white;'>" + (looper + 1) + "</div></td>" +
-                        "<td>" + sellerEmail + " &#8594; " + buyerEmail + "</td>" +
+                        "<td>" + buyerEmail + " &#8594; " + sellerEmail + "</td>" +
                         "<td>" + order["total_items"] + "</td>" +
                         "<td><a class='view-order link'>Lihat</a></td>" +
                         "<td><a class='delete-order link'>Hapus</a></td>" +
                         "</tr>"
                     );
                     setOrderClickListener();
-                    displayOrder(buyerID, sellerID, user, looper+1);
+                    displayOrder(user, looper+1);
                 }
             });
         }
@@ -199,7 +197,7 @@ function setOrderClickListener() {
             hereMap.jHERE("nomarkers");
             hereMap.jHERE("center", [latitude, longitude]);
             hereMap.jHERE("marker", [latitude, longitude], {
-                icon: 'http://' + HOST + '/img/map.png'
+                icon: 'https://' + HOST + '/img/map.png'
             });
         });
     });

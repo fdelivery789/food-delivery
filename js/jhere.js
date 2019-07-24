@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Massimiliano Marcon, http://marcon.me
+Copyright (c) 2013 Massimiliano Marcon, https://marcon.me
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //`<script type="text/javascript" src="js/tire.min.js"></script>`
     //
-    //[Download](http://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
+    //[Download](https://github.com/mmarcon/jhere/archive/master.zip) the plugin code, copy it in your project folder and
     //add the necessary script tags after jQuery, Zepto.JS or Tire.js. **If you are using Zepto.JS**
     //then you will need to **include the Zepto adapter** before including the plugin.
     //
@@ -157,7 +157,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //I used for development, and it is ok for you to use the same credentials for development
     //and testing purpose.
     //
-    //However you should really register on the [HERE developer website](http://developer.here.com)
+    //However you should really register on the [HERE developer website](https://developer.here.com)
     //and get your own. I strongly encourage you to do so especially for production use, as
     //my credentials may unexpectedtly stop working at any time.
     //
@@ -440,7 +440,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //It is required that the KML is hosted on the same domain
     //where the application is hosted, or that the server that hosts
-    //the KML file has [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled.
+    //the KML file has [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled.
     H.kml = function(KMLFile, zoomToKML, ondone) {
         if(isFunction(zoomToKML)) {
             ondone = zoomToKML;
@@ -480,7 +480,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //Values will be automatically **normalized between 0 and 1**.
     //
-    //`type` defines the type of heatmap, can be `density` or `value`. [Heatmaps on Wikipedia](http://en.wikipedia.org/wiki/Heat_map).
+    //`type` defines the type of heatmap, can be `density` or `value`. [Heatmaps on Wikipedia](https://en.wikipedia.org/wiki/Heat_map).
     //
     //`options` is an object that can have a `colors` property used to
     //customize the heatmap look.
@@ -512,7 +512,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
     //This is useful when advanced operations
     //that are not exposed by this plugin need to be
-    //performed. Check [developer.here.com](http://developer.here.com) for the
+    //performed. Check [developer.here.com](https://developer.here.com) for the
     //documentation.
     //
     //`closure` should look like this:
@@ -668,7 +668,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         };
         head = doc.getElementsByTagName('head')[0];
         jsla = doc.createElement('script');
-        jsla.src = 'http://js.api.here.com/se/2.5.4/jsl.js';
+        jsla.src = 'https://js.api.here.com/se/2.5.4/jsl.js';
         jsla.type = 'text/javascript';
         jsla.charset = 'utf-8';
         jsla.onreadystatechange = function(){
@@ -699,7 +699,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     //###Extend jHERE
     //jHERE can be easily extended with additional features. Some example of
-    //extensions are located [here](http://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md).
+    //extensions are located [here](https://github.com/mmarcon/jhere/blob/master/EXTENSIONS.md).
     //An extension should be implemented within a self-invoking function.
     //Add the function(s)
     //that will be called via
@@ -714,7 +714,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //  //this.map is the HERE JavaScript API map
     //});</code></pre>
     //
-    //A good example of extension is the [routing extension](http://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
+    //A good example of extension is the [routing extension](https://github.com/mmarcon/jhere/blob/master/src/extensions/route.js).
     P.extend = function(name, fn) {
         if (typeof name === 'string' && isFunction(fn)) {
             H[name] = fn;
