@@ -1,5 +1,5 @@
-const HOST = "localhost/fdelivery";
-//const HOST = "fdelivery.xyz";
+//const HOST = "localhost/fdelivery";
+const HOST = "fdelivery.xyz";
 const PHP_PATH = "https://"+HOST+"/php/";
 const API_KEY = "AIzaSyCNA8fwTJhMu8ju9pdg08M5zBmninVPm5k";
 const HERE_APP_ID = "BqM8uW7Z8qDUrv8ZxlSX";
