@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://fdelivery.xyz"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]
