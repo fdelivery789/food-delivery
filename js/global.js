@@ -129,7 +129,6 @@ function formatMoney(money) {
 
 function getBase64Image(url, user, doc, callback) {
     var img = new Image;
-    img.crossOrigin = "Anonymous";
     img.onload = function() {
         var canvas = document.createElement("canvas");
         canvas.width = img.width;
@@ -140,5 +139,6 @@ function getBase64Image(url, user, doc, callback) {
         //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
         callback(user, doc, dataURL);
     };
+    img.crossOrigin = "Anonymous";
     img.src = url;
 }
