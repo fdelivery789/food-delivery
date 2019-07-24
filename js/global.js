@@ -128,23 +128,18 @@ function formatMoney(money) {
 }
 
 function getBase64Image(url, user, doc, callback) {
-    $.ajax({
-        type: 'GET',
-        beforeSend: function(request) {
-            request.setRequestHeader("Access-Control-Allow-Origin", "*");
-        },
-        url: url,
-        dataType: 'text',
-        cache: false,
-        success: function(response) {
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            var dataURL = canvas.toDataURL("image/jpeg");
-            //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-            callback(user, doc, dataURL);
+    var oReq = new XMLHttpRequest();
+    oReq.open("GET", url, true);
+    oReq.setRequestHeader("Access-Control-Allow-Origin", "*");
+// use multiple setRequestHeader calls to set multiple values
+    oReq.responseType = "arraybuffer";
+    oReq.onload = function (oEvent) {
+        var arrayBuffer = oReq.response; // Note: not oReq.responseText
+        if (arrayBuffer) {
+            var u8 = new Uint8Array(arrayBuffer);
+            var b64encoded = btoa(String.fromCharCode.apply(null, u8));
+            callback(user, doc, b64encoded);
         }
-    });
+    };
+    oReq.send(null);
 }
