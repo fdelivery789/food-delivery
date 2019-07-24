@@ -128,17 +128,15 @@ function formatMoney(money) {
 }
 
 function getBase64Image(url, user, doc, callback) {
-    var img = new Image;
-    img.onload = function() {
-        var canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        var dataURL = canvas.toDataURL("image/jpeg");
-        //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        callback(user, doc, dataURL);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(user, doc, reader.result);
+        };
+        reader.readAsDataURL(xhr.response);
     };
-    img.crossOrigin = "Anonymous";
-    img.src = url;
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
 }
