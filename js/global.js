@@ -128,17 +128,23 @@ function formatMoney(money) {
 }
 
 function getBase64Image(url, user, doc, callback) {
-    var img = new Image;
-    img.onload = function() {
-        var canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        var dataURL = canvas.toDataURL("image/jpeg");
-        //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        callback(user, doc, dataURL);
-    };
-    img.crossOrigin = "Anonymous";
-    img.src = url;
+    $.ajax({
+        type: 'GET',
+        beforeSend: function(request) {
+            request.setRequestHeader("Access-Control-Allow-Origin", "*");
+        },
+        url: url,
+        dataType: 'text',
+        cache: false,
+        success: function(response) {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            var dataURL = canvas.toDataURL("image/jpeg");
+            //dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            callback(user, doc, dataURL);
+        }
+    });
 }
