@@ -569,7 +569,7 @@ function drawFood(doc, user) {
     if (foodJSON != null) {
         doc.setFontType("normal");
         doc.text(x, nextY, foodJSON["name"]);
-        getBase64Image(foodJSON["img_url"], user, doc, base64ImageCallback);
+        getBase64Image(foodJSON["img_url"].replace("http://", "https://"), user, doc, base64ImageCallback);
     }
 }
 
