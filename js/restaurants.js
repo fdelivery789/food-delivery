@@ -645,7 +645,7 @@ function addRestaurant() {
                     fd.append("longitude", currentLongitude);
                     fd.append("address", address);
                     fd.append("rating", "0");
-                    fd.append("seller_id", sellerInfo["email"]);
+                    fd.append("seller_id", sellerInfo["id"]);
                     $.ajax({
                         type: 'POST',
                         url: PHP_PATH+'add-restaurant.php',
