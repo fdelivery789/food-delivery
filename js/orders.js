@@ -1,18 +1,32 @@
 var orders;
 var platform;
-var hereMap;
+//var hereMap;
 var selectedLatitude;
 var selectedLongitude;
 var currentLatitude;
 var currentLongitude;
+var map;
 
 $(document).ready(function () {
     getOrders();
-    hereMap = $('#map').jHERE({
+    map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([0, 0]),
+            zoom: 4
+        })
+    });
+    //-6.229728,106.6894287
+    /*hereMap = $('#map').jHERE({
         enable: ['behavior'],
         center: [0, 0],
         zoom: 8
-    });
+    });*/
 });
 
 function getOrders() {
@@ -194,11 +208,13 @@ function setOrderClickListener() {
             }
             var latitude = parseFloat(driver["latitude"]);
             var longitude = parseFloat(driver["longitude"]);
-            hereMap.jHERE("nomarkers");
+            map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'))
+            map.getView().setZoom(15);
+            /*hereMap.jHERE("nomarkers");
             hereMap.jHERE("center", [latitude, longitude]);
             hereMap.jHERE("marker", [latitude, longitude], {
                 icon: 'https://' + HOST + '/img/map.png'
-            });
+            });*/
         });
     });
     $(".delete-order").unbind().on("click", function () {
